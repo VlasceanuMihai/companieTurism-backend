@@ -1,10 +1,8 @@
 package com.CompanieTurism.models;
 
 import com.CompanieTurism.enums.TipAngajat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,6 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @EqualsAndHashCode(of = {"cnp"})
 public class Angajat {
 

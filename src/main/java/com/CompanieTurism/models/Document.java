@@ -1,11 +1,13 @@
 package com.CompanieTurism.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "documente")
@@ -19,7 +21,7 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @ManyToOne
     private Angajat angajat;
 
     @Column
@@ -27,4 +29,8 @@ public class Document {
 
     @Column
     private String nume;
+
+    @OneToMany(mappedBy = "zbor")
+    @JsonIgnore
+    public Set<Zbor> zboruri;
 }
