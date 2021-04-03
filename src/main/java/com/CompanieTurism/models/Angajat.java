@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "angajati")
@@ -46,4 +47,8 @@ public class Angajat {
 
     @Column(nullable = false)
     private String parola;
+
+    @OneToMany(mappedBy = "angajat")
+    @JsonIgnore
+    public Set<Document> documente;
 }

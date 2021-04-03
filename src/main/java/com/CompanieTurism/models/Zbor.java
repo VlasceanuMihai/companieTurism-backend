@@ -18,19 +18,19 @@ public class Zbor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "Aeroport plecare")
+    @Column(name = "aeroport_plecare")
     private String aeroportPlecare;
 
-    @Column(name = "Data si ora plecarii")
+    @Column(name = "data_si_ora_plecarii")
     private Instant dataOraPlecare;
 
-    @Column(name = "Aeroport sosire")
+    @Column(name = "aeroport_sosire")
     private String aeroportSosire;
 
-    @Column(name = "Data si ora sosirii")
+    @Column(name = "data_si_ora_sosirii")
     private Instant dataOraSosirii;
 
-    @Column(name = "Companie")
+    @Column(name = "companie")
     private String companie;
 
     @ManyToOne

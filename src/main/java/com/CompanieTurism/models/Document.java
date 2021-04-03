@@ -21,16 +21,17 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    private Angajat angajat;
-
     @Column
     private String cale;
 
     @Column
     private String nume;
 
-    @OneToMany(mappedBy = "zbor")
+    @ManyToOne
+    @JoinColumn(name = "id_angajat")
+    private Angajat angajat;
+
+    @OneToMany(mappedBy = "document")
     @JsonIgnore
     public Set<Zbor> zboruri;
 }
