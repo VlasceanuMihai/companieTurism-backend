@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "documente")
@@ -15,4 +14,17 @@ import javax.persistence.Table;
 @Data
 @Builder
 public class Document {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column
+    private Angajat angajat;
+
+    @Column
+    private String cale;
+
+    @Column
+    private String nume;
 }
