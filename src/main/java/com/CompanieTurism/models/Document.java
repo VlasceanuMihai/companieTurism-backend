@@ -1,10 +1,7 @@
 package com.CompanieTurism.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,16 +12,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 @Builder
+@EqualsAndHashCode(of = {"id"})
 public class Document {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(nullable = false)
     private String cale;
 
-    @Column
+    @Column(nullable = false)
     private String nume;
 
     @ManyToOne
@@ -34,4 +32,8 @@ public class Document {
     @OneToMany(mappedBy = "document")
     @JsonIgnore
     public Set<Zbor> zboruri;
+
+    @OneToMany(mappedBy = "document")
+    @JoinColumn
+    public Set<Destinatie> destinatii;
 }
