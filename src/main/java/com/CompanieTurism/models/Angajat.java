@@ -30,16 +30,17 @@ public class Angajat {
     @Column(nullable = false)
     private String cnp;
 
-    @Column
+    @Column(nullable = false)
     private String telefon;
 
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "data_angajare")
     private LocalDate dataAngajare;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "tip_angajat")
+    @Enumerated(EnumType.STRING)
     private TipAngajat tipAngajat;
 
     @Column(nullable = false)

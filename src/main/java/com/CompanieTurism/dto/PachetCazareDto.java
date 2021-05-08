@@ -1,13 +1,11 @@
 package com.CompanieTurism.dto;
 
+import com.CompanieTurism.enums.TipPachet;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.Instant;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,32 +13,31 @@ import java.time.Instant;
 @Builder
 @EqualsAndHashCode(of = {"id"})
 @JGlobalMap
-public class ZborDto {
+public class PachetCazareDto {
 
     private Integer id;
 
-    @NotNull
-    @NotBlank
-    @Size(max = 50)
-    private String aeroportPlecare;
+    private TipPachet tipPachet;
 
     @NotNull
     @NotBlank
-    @FutureOrPresent
-    private Instant dataOraPlecare;
+    private Integer pretPeNoapte;
 
     @NotNull
     @NotBlank
-    @Size(max = 50)
-    private String aeroportSosire;
+    private Integer numarNopti;
 
     @NotNull
     @NotBlank
-    @FutureOrPresent
-    private Instant dataOraSosire;
+    private Integer numarCamere;
 
     @NotNull
     @NotBlank
-    @Size(max = 30)
-    private String companie;
+    private Integer numarAdulti;
+
+    private Integer numarCopii;
+
+    @NotNull
+    @NotBlank
+    private Integer pretTotal;
 }

@@ -28,7 +28,7 @@ public class Zbor {
     private String aeroportSosire;
 
     @Column(nullable = false, name = "data_ora_sosire")
-    private Instant dataOraSosirii;
+    private Instant dataOraSosire;
 
     @Column(nullable = false, name = "companie")
     private String companie;

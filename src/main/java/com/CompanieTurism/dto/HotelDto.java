@@ -3,6 +3,7 @@ package com.CompanieTurism.dto;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,17 +14,17 @@ import javax.validation.constraints.Size;
 @Builder
 @EqualsAndHashCode(of = {"id"})
 @JGlobalMap
-public class DocumentDto {
+public class HotelDto {
 
     private Integer id;
 
     @NotNull
     @NotBlank
-    @Size(max = 45)
-    private String cale;
+    @Size(max = 20)
+    private String nume;
 
     @NotNull
     @NotBlank
-    @Size(max = 45)
-    private String nume;
+    @Max(1)
+    private Integer stele;
 }

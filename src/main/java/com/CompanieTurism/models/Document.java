@@ -34,6 +34,6 @@ public class Document {
     public Set<Zbor> zboruri;
 
     @OneToMany(mappedBy = "document")
-    @JoinColumn
+    @JsonIgnore
     public Set<Destinatie> destinatii;
 }
