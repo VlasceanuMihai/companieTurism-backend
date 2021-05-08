@@ -1,13 +1,12 @@
 package com.CompanieTurism.models;
 
-import com.CompanieTurism.enums.ScenariuCovid;
 import com.CompanieTurism.enums.TipPachet;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "hotel")
+@Table(name = "pachet_cazare")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -23,7 +22,7 @@ public class PachetCazare {
     @Enumerated(EnumType.STRING)
     private TipPachet tipPachet;
 
-    @Column( nullable = false, name = "pret_pe_noapte")
+    @Column(nullable = false, name = "pret_pe_noapte")
     private Integer pretPeNoapte;
 
     @Column(nullable = false, name = "numar_nopti")

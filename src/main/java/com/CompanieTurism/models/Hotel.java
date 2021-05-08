@@ -1,5 +1,6 @@
 package com.CompanieTurism.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,5 +30,6 @@ public class Hotel {
     private Destinatie destinatie;
 
     @OneToMany(mappedBy = "hotel")
+    @JsonIgnore
     private Set<PachetCazare> pachetCazari;
 }

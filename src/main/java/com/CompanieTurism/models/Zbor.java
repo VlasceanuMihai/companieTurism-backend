@@ -34,6 +34,6 @@ public class Zbor {
     private String companie;
 
     @ManyToOne
-    @JoinColumn(name = "id_document")
+    @JoinColumn(name = "id_documente")
     private Document document;
 }

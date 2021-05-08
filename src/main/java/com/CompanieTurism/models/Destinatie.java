@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.Set;
 
 @Entity
@@ -32,7 +31,7 @@ public class Destinatie {
     private ScenariuCovid scenariuCovid;
 
     @ManyToOne
-    @JoinColumn(name = "id_document")
+    @JoinColumn(name = "id_documente")
     private Document document;
 
     @OneToMany(mappedBy = "destinatie")
