@@ -11,26 +11,26 @@ import java.time.Instant;
 @NoArgsConstructor
 @Data
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"id"})
 public class Zbor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "aeroport_plecare")
+    @Column(nullable = false, name = "aeroport_plecare")
     private String aeroportPlecare;
 
-    @Column(name = "data_si_ora_plecarii")
+    @Column(nullable = false, name = "data_ora_plecare")
     private Instant dataOraPlecare;
 
-    @Column(name = "aeroport_sosire")
+    @Column(nullable = false, name = "aeroport_sosire")
     private String aeroportSosire;
 
-    @Column(name = "data_si_ora_sosirii")
+    @Column(nullable = false, name = "data_ora_sosire")
     private Instant dataOraSosirii;
 
-    @Column(name = "companie")
+    @Column(nullable = false, name = "companie")
     private String companie;
 
     @ManyToOne
