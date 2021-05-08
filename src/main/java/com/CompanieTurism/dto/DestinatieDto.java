@@ -1,5 +1,6 @@
 package com.CompanieTurism.dto;
 
+import com.CompanieTurism.enums.ScenariuCovid;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
@@ -13,17 +14,21 @@ import javax.validation.constraints.Size;
 @Builder
 @EqualsAndHashCode(of = {"id"})
 @JGlobalMap
-public class DocumentDto {
+public class DestinatieDto {
 
     private Integer id;
 
     @NotNull
     @NotBlank
-    @Size(max = 45)
-    private String cale;
+    @Size(max = 40)
+    private String tara;
 
     @NotNull
     @NotBlank
-    @Size(max = 45)
-    private String nume;
+    @Size(max = 40)
+    private String oras;
+
+    @NotNull
+    @NotBlank
+    private ScenariuCovid scenariuCovid;
 }
