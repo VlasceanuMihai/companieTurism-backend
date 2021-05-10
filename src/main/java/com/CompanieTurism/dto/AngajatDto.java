@@ -59,11 +59,6 @@ public class AngajatDto {
     @Max(5)
     private Integer salariu;
 
-    @NotNull
-    @NotBlank
-    @Size(max = 30)
-    private String parola;
-
     public String getFullName() {
         return Stream.of(prenume, nume)
                 .filter(Objects::nonNull)
