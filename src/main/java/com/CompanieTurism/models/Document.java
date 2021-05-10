@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,9 @@ import java.util.Set;
 @Data
 @Builder
 @EqualsAndHashCode(of = {"id"})
-public class Document {
+public class Document implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +25,8 @@ public class Document {
     @Column(nullable = false)
     private String cale;
 
-    @Column(nullable = false)
-    private String nume;
+    @Column(nullable = false, name = "nume_document")
+    private String numeDocument;
 
     @ManyToOne
     @JoinColumn(name = "id_angajat")

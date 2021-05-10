@@ -25,5 +25,5 @@ public class DocumentDto {
     @NotNull
     @NotBlank
     @Size(max = 45)
-    private String nume;
+    private String numeDocument;
 }
