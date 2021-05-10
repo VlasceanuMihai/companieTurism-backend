@@ -21,7 +21,7 @@ public class AngajatController {
     }
 
     @GetMapping("/v1/angajati")
-    public ResponseEntity<Object> getAllAngajati(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Object> getAllEmployees(@PageableDefault(size = 10) Pageable pageable) {
         return ResponseEntity.ok(this.angajatService.getAllAngajati(pageable));
     }
 }
