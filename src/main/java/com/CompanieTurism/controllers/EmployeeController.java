@@ -1,6 +1,6 @@
 package com.CompanieTurism.controllers;
 
-import com.CompanieTurism.services.AngajatService;
+import com.CompanieTurism.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/angajat")
-public class AngajatController {
+@RequestMapping("/employee")
+public class EmployeeController {
 
-    private final AngajatService angajatService;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public AngajatController(AngajatService angajatService) {
-        this.angajatService = angajatService;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
-    @GetMapping("/v1/angajati")
+    @GetMapping("/v1/employees")
     public ResponseEntity<Object> getAllEmployees(@PageableDefault(size = 10) Pageable pageable) {
-        return ResponseEntity.ok(this.angajatService.getAllAngajati(pageable));
+        return ResponseEntity.ok(this.employeeService.getAllEmployees(pageable));
     }
 }

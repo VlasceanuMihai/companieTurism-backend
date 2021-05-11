@@ -15,32 +15,32 @@ import java.time.Instant;
 @Builder
 @EqualsAndHashCode(of = {"id"})
 @JGlobalMap
-public class ZborDto {
+public class FlightDto {
 
     private Integer id;
 
     @NotNull
     @NotBlank
     @Size(max = 50)
-    private String aeroportPlecare;
+    private String airportDeparture;
 
     @NotNull
     @NotBlank
     @FutureOrPresent
-    private Instant dataOraPlecare;
+    private Instant dateOfDeparture;
 
     @NotNull
     @NotBlank
     @Size(max = 50)
-    private String aeroportSosire;
+    private String airportArrival;
 
     @NotNull
     @NotBlank
     @FutureOrPresent
-    private Instant dataOraSosire;
+    private Instant dateOfArrival;
 
     @NotNull
     @NotBlank
     @Size(max = 30)
-    private String companie;
+    private String company;
 }

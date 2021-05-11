@@ -21,10 +21,10 @@ public class HotelDto {
     @NotNull
     @NotBlank
     @Size(max = 20)
-    private String nume;
+    private String name;
 
     @NotNull
     @NotBlank
     @Max(1)
-    private Integer stele;
+    private Integer rating;
 }

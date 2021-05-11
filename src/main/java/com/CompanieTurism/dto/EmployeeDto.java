@@ -1,6 +1,6 @@
 package com.CompanieTurism.dto;
 
-import com.CompanieTurism.enums.TipAngajat;
+import com.CompanieTurism.enums.EmployeeType;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
@@ -16,19 +16,19 @@ import java.util.stream.Stream;
 @Builder
 @EqualsAndHashCode(of = {"cnp"})
 @JGlobalMap
-public class AngajatDto {
+public class EmployeeDto {
 
     private Integer id;
 
     @NotNull
     @NotBlank
     @Size(max = 40)
-    private String nume;
+    private String lastName;
 
     @NotNull
     @NotBlank
     @Size(max = 50)
-    private String prenume;
+    private String firstName;
 
     @NotNull
     @NotBlank
@@ -38,7 +38,7 @@ public class AngajatDto {
     @NotNull
     @NotBlank
     @Size(max = 10)
-    private String telefon;
+    private String phoneNumber;
 
     @NotNull
     @NotBlank
@@ -48,19 +48,19 @@ public class AngajatDto {
 
     @NotNull
     @NotBlank
-    private LocalDate dataAngajare;
+    private LocalDate dateOfEmployment;
 
     @NotNull
     @NotBlank
-    private TipAngajat tipAngajat;
+    private EmployeeType employeeType;
 
     @NotNull
     @NotBlank
     @Max(5)
-    private Integer salariu;
+    private Integer wage;
 
     public String getFullName() {
-        return Stream.of(prenume, nume)
+        return Stream.of(firstName, lastName)
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining(" "))
                 .trim()

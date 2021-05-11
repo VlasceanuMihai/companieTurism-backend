@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.Response;
-
 @RestController
 @RequestMapping("/document")
 public class DocumentController {
@@ -22,8 +20,8 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-//    @GetMapping("/v1/documente")
-//    public ResponseEntity<Object> getAllDocuments(@PageableDefault(size = 10) Pageable pageable) {
-//        return ResponseEntity.ok(this.documentService.);
-//    }
+    @GetMapping("/v1/documents")
+    public ResponseEntity<Object> getAllDocuments(@PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(this.documentService.getDocumentsByEmployeeAndDocumentName(pageable));
+    }
 }

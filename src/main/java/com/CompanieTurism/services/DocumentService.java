@@ -1,7 +1,7 @@
 package com.CompanieTurism.services;
 
-import com.CompanieTurism.dto.DocumentDto;
 import com.CompanieTurism.repository.DocumentRepository;
+import com.CompanieTurism.responses.DocumentsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +20,7 @@ public class DocumentService {
         this.documentRepository = documentRepository;
     }
 
-//    public List<DocumentDto> getAllDocuments(Pageable pageable){
-//        return this.documentRepository.findAll(pageable).stream()
-//                .map(Do)
-//    }
+    public List<DocumentsResponse> getDocumentsByEmployeeAndDocumentName(Pageable pageable) {
+        return this.documentRepository.findAllByEmployeeAndDocumentName(pageable);
+    }
 }

@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "hotel")
+@Table(name = "hotels")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -20,16 +20,16 @@ public class Hotel {
     private Integer id;
 
     @Column(nullable = false)
-    private String nume;
+    private String name;
 
     @Column(nullable = false)
-    private Integer stele;
+    private Integer rating;
 
     @ManyToOne
-    @JoinColumn(name = "id_destinatie")
-    private Destinatie destinatie;
+    @JoinColumn(name = "id_destination")
+    private Destination destination;
 
     @OneToMany(mappedBy = "hotel")
     @JsonIgnore
-    private Set<PachetCazare> pachetCazari;
+    private Set<AccommodationPackage> accommodationPackage;
 }
