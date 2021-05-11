@@ -1,6 +1,6 @@
 package com.CompanieTurism.enums;
 
-public enum TipAngajat {
+public enum EmployeeType {
     SUCURSALA,
-    GHID_TURISTIC;
+    TRAVEL_GUIDE;
 }

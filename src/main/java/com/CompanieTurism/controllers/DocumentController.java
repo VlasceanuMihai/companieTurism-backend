@@ -20,8 +20,8 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-    @GetMapping("/v1/documente")
+    @GetMapping("/v1/documents")
     public ResponseEntity<Object> getAllDocuments(@PageableDefault(size = 10) Pageable pageable) {
-        return ResponseEntity.ok(this.documentService.getDocumentsByAngajatAndNumeDestiantie(pageable));
+        return ResponseEntity.ok(this.documentService.getDocumentsByEmployeeAndDocumentName(pageable));
     }
 }

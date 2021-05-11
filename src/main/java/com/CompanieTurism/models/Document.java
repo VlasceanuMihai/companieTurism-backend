@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "documente")
+@Table(name = "documents")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -23,20 +23,20 @@ public class Document implements Serializable {
     private Integer id;
 
     @Column(nullable = false)
-    private String cale;
+    private String path;
 
-    @Column(nullable = false, name = "nume_document")
-    private String numeDocument;
+    @Column(nullable = false)
+    private String documentName;
 
     @ManyToOne
-    @JoinColumn(name = "id_angajat")
-    private Angajat angajat;
+    @JoinColumn(name = "id_employee")
+    private Employee employee;
 
     @OneToMany(mappedBy = "document")
     @JsonIgnore
-    public Set<Zbor> zboruri;
+    public Set<Flight> flights;
 
     @OneToMany(mappedBy = "document")
     @JsonIgnore
-    public Set<Destinatie> destinatii;
+    public Set<Destination> destinations;
 }

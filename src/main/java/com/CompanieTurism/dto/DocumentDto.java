@@ -20,10 +20,10 @@ public class DocumentDto {
     @NotNull
     @NotBlank
     @Size(max = 45)
-    private String cale;
+    private String path;
 
     @NotNull
     @NotBlank
     @Size(max = 45)
-    private String numeDocument;
+    private String documentName;
 }

@@ -1,6 +1,6 @@
 package com.CompanieTurism.enums;
 
-public enum TipPachet {
+public enum PackageType {
     STANDARD,
     PREMIUM,
     VIP;

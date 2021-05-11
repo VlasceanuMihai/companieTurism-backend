@@ -1,14 +1,12 @@
 package com.CompanieTurism.services;
 
-import com.CompanieTurism.models.Document;
 import com.CompanieTurism.repository.DocumentRepository;
-import com.CompanieTurism.responses.DocumenteResponse;
+import com.CompanieTurism.responses.DocumentsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +20,7 @@ public class DocumentService {
         this.documentRepository = documentRepository;
     }
 
-    public List<DocumenteResponse> getDocumentsByAngajatAndNumeDestiantie(Pageable pageable) {
-        return this.documentRepository.findAllByAngajatAndNumeDocument(pageable);
+    public List<DocumentsResponse> getDocumentsByEmployeeAndDocumentName(Pageable pageable) {
+        return this.documentRepository.findAllByEmployeeAndDocumentName(pageable);
     }
 }

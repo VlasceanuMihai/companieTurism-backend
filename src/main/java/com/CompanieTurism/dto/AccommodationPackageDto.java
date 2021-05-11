@@ -1,6 +1,6 @@
 package com.CompanieTurism.dto;
 
-import com.CompanieTurism.enums.TipPachet;
+import com.CompanieTurism.enums.PackageType;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
@@ -13,31 +13,31 @@ import javax.validation.constraints.NotNull;
 @Builder
 @EqualsAndHashCode(of = {"id"})
 @JGlobalMap
-public class PachetCazareDto {
+public class AccommodationPackageDto {
 
     private Integer id;
 
-    private TipPachet tipPachet;
+    private PackageType packageType;
 
     @NotNull
     @NotBlank
-    private Integer pretPeNoapte;
+    private Integer pricePerNight;
 
     @NotNull
     @NotBlank
-    private Integer numarNopti;
+    private Integer nightsNumber;
 
     @NotNull
     @NotBlank
-    private Integer numarCamere;
+    private Integer roomsNumber;
 
     @NotNull
     @NotBlank
-    private Integer numarAdulti;
+    private Integer adultsNumber;
 
-    private Integer numarCopii;
+    private Integer kidsNumber;
 
     @NotNull
     @NotBlank
-    private Integer pretTotal;
+    private Integer totalPrice;
 }

@@ -1,6 +1,6 @@
 package com.CompanieTurism.models;
 
-import com.CompanieTurism.enums.ScenariuCovid;
+import com.CompanieTurism.enums.CovidScenario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -8,33 +8,33 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "destinatii")
+@Table(name = "destinations")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @EqualsAndHashCode(of = {"id"})
-public class Destinatie {
+public class Destination {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private String tara;
+    private String country;
 
     @Column(nullable = false)
-    private String oras;
+    private String city;
 
-    @Column(nullable = false, name = "scenariu_covid")
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ScenariuCovid scenariuCovid;
+    private CovidScenario covidScenario;
 
     @ManyToOne
-    @JoinColumn(name = "id_documente")
+    @JoinColumn(name = "id_document")
     private Document document;
 
-    @OneToMany(mappedBy = "destinatie")
+    @OneToMany(mappedBy = "destination")
     @JsonIgnore
-    private Set<Hotel> hoteluri;
+    private Set<Hotel> hotels;
 }
