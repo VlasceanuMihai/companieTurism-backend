@@ -24,18 +24,5 @@ public class DocumentService {
 
     public List<DocumenteResponse> getDocumentsByAngajatAndNumeDestiantie(Pageable pageable) {
         return this.documentRepository.findAllByAngajatAndNumeDocument(pageable);
-
-//        List<DocumenteResponse> response = new ArrayList<>();
-//        for (Document document : documents) {
-//            DocumenteResponse documenteResponse = DocumenteResponse.builder()
-//                    .numeAngajat(document.getAngajat().getNume())
-//                    .prenumeAngajat(document.getAngajat().getPrenume())
-//                    .numeDocument(document.getNumeDocument())
-//                    .build();
-//
-//            response.add(documenteResponse);
-//        }
-//
-//        return response;
     }
 }
