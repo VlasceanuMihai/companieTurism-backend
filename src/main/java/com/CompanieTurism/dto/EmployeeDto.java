@@ -1,6 +1,7 @@
 package com.CompanieTurism.dto;
 
 import com.CompanieTurism.enums.EmployeeType;
+import com.CompanieTurism.enums.Role;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
@@ -58,6 +59,9 @@ public class EmployeeDto {
     @NotBlank
     @Max(5)
     private Integer wage;
+
+    @NotNull
+    private Role role;
 
     public String getFullName() {
         return Stream.of(firstName, lastName)

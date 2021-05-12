@@ -1,6 +1,7 @@
 package com.CompanieTurism.models;
 
 import com.CompanieTurism.enums.EmployeeType;
+import com.CompanieTurism.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -48,6 +49,11 @@ public class Employee {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+//    @JsonIgnore
+    private Role role;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
