@@ -32,5 +32,16 @@ public class EmployeeDao {
     public Optional<EmployeeDto> findByCnp(String cnp) {
         return this.employeeRepository.findEmployeeByCnp(cnp).map(TO_EMPLOYEE_DTO::getDestination);
     }
+
+    @Transactional
+    public EmployeeDto save(EmployeeDto employeeDto) {
+        Employee employee = this.employeeRepository.save(TO_EMPLOYEE_ENTITY.getDestination(employeeDto));
+        return TO_EMPLOYEE_DTO.getDestination(employee);
+    }
+
+    @Transactional
+    public void delete(Integer empoyeeId) {
+        this.employeeRepository.deleteById(empoyeeId);
+    }
 }
 

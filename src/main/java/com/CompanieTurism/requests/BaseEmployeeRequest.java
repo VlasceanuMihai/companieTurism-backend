@@ -1,29 +1,23 @@
-package com.CompanieTurism.dto;
+package com.CompanieTurism.requests;
 
 import com.CompanieTurism.enums.EmployeeType;
 import com.CompanieTurism.enums.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.googlecode.jmapper.annotations.JGlobalMap;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-@EqualsAndHashCode(of = {"cnp"})
-@JGlobalMap
-public class EmployeeDto {
-
-    private Integer id;
+public class BaseEmployeeRequest {
 
     @NotNull
     @NotBlank
@@ -52,33 +46,17 @@ public class EmployeeDto {
     private String email;
 
     @NotNull
-    @NotBlank
     private LocalDate dateOfEmployment;
 
     @NotNull
-    @NotBlank
     @Enumerated(EnumType.STRING)
     private EmployeeType employeeType;
 
     @NotNull
-    @NotBlank
     private Integer wage;
 
     @NotNull
     @NotBlank
-    @Size(max = 20)
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    private Instant createdAt;
-
-    @JsonIgnore
-    public String getFullName() {
-        return Stream.of(firstName, lastName)
-                .filter(Objects::nonNull)
-                .collect(Collectors.joining(" "))
-                .trim()
-                .replace(" +", "");
-    }
+    @Size(max = 70)
+    private String password;
 }
-

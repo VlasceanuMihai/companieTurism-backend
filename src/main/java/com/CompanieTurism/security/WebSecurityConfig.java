@@ -1,7 +1,7 @@
 package com.CompanieTurism.security;
 
 import com.CompanieTurism.security.jwt.JwtTokenAuthorizationOncePerRequestFilter;
-import com.CompanieTurism.security.jwt.JwtUnAuthorizedResponseAuthenticationEntryPoint;
+import com.CompanieTurism.security.jwt.JwtAuthEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,16 +30,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private String authenticationPath;
 
     private UserDetailsService userDetailsService;
-    private final JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint;
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
     private final JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
 
     @Autowired
     public WebSecurityConfig(@Qualifier("loadUserDetailsService") UserDetailsService userDetailsService,
-                             JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint,
+                             JwtAuthEntryPoint jwtAuthEntryPoint,
                              JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter) {
         this.userDetailsService = userDetailsService;
-        this.jwtUnAuthorizedResponseAuthenticationEntryPoint = jwtUnAuthorizedResponseAuthenticationEntryPoint;
+        this.jwtAuthEntryPoint = jwtAuthEntryPoint;
         this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Bean
@@ -54,25 +60,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(this.passwordEncoder());
     }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint)
+                .exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/" + authenticationPath).permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity
-                // Config filter --> every request is checked by this filter to see if it's authorized
+                // Config filter --> every request is checked by this filter to see
+                // if it's authorized
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity
@@ -81,27 +83,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cacheControl(); // disable caching
     }
 
-    @Override
-    public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.POST,
-                        authenticationPath
-                )
-                .antMatchers(
-                        HttpMethod.POST,
-                        "/v1/addAdmin"
-                )
-                .antMatchers(HttpMethod.OPTIONS, "/**")
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/" // Other stuff you want to ignore
-                )
-                .and()
-                .ignoring()
-                .antMatchers("/h2-console/**/**"); // Should not be in Production!!!
-    }
+//    @Override
+//    public void configure(WebSecurity webSecurity) throws Exception {
+//        webSecurity
+//                .ignoring()
+//                .antMatchers(
+//                        HttpMethod.POST,
+//                        authenticationPath
+//                )
+//                .antMatchers(
+//                        HttpMethod.POST,
+//                        "/v1/addAdmin"
+//                )
+//                .antMatchers(HttpMethod.OPTIONS, "/**")
+//                .and()
+//                .ignoring()
+//                .antMatchers(
+//                        HttpMethod.GET,
+//                        "/" // Other stuff you want to ignore
+//                )
+//                .and()
+//                .ignoring()
+//                .antMatchers("/h2-console/**/**"); // Should not be in Production!!!
+//    }
 }

@@ -22,9 +22,21 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<EmployeeDto> getAllEmployees(Pageable pageable){
+    public List<EmployeeDto> getAllEmployees(Pageable pageable) {
         return this.employeeRepository.findAll(pageable).stream()
                 .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
                 .collect(Collectors.toList());
+    }
+
+    public boolean checkExistingEmail(String email) {
+        return this.employeeRepository.existsByEmail(email);
+    }
+
+    public boolean checkExistingPhoneNumber(String phoneNumber){
+        return this.employeeRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public boolean checkExistingCnp(String cnp){
+        return this.employeeRepository.existsByCnp(cnp);
     }
 }
