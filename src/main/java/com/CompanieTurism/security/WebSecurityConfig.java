@@ -89,6 +89,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         HttpMethod.POST,
                         authenticationPath
                 )
+                .antMatchers(
+                        HttpMethod.POST,
+                        "/v1/addAdmin"
+                )
                 .antMatchers(HttpMethod.OPTIONS, "/**")
                 .and()
                 .ignoring()
