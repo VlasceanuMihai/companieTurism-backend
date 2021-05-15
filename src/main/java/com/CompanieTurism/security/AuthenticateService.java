@@ -62,7 +62,7 @@ public class AuthenticateService {
         if (jwtTokenUtil.canTokenBeRefreshed(token)) {
             String refreshedToken = this.jwtTokenUtil.refreshToken(token);
             return ResponseEntity.ok(new AuthenticationResponse(refreshedToken));
-        }else {
+        } else {
             return ResponseEntity.badRequest().body(null);
         }
     }
