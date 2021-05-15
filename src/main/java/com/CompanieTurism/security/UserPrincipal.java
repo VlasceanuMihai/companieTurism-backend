@@ -14,7 +14,7 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"})
 public class UserPrincipal implements UserDetails {
 
-    private static final long serialVersionUID = 5155720064139820502L;
+    private static final long serialVersionUID = 1L;
 
     private final Integer id;
     private final String username;
@@ -47,6 +47,7 @@ public class UserPrincipal implements UserDetails {
         return this.username;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return this.password;
@@ -61,16 +62,19 @@ public class UserPrincipal implements UserDetails {
         return this.role;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
