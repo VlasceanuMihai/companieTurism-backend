@@ -32,11 +32,11 @@ public class EmployeeService {
         return this.employeeRepository.existsByEmail(email);
     }
 
-    public boolean checkExistingPhoneNumber(String phoneNumber){
+    public boolean checkExistingPhoneNumber(String phoneNumber) {
         return this.employeeRepository.existsByPhoneNumber(phoneNumber);
     }
 
-    public boolean checkExistingCnp(String cnp){
+    public boolean checkExistingCnp(String cnp) {
         return this.employeeRepository.existsByCnp(cnp);
     }
 }
