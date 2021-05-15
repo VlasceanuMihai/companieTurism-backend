@@ -18,7 +18,7 @@ public class AccommodationPackage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "tip_pachet")
+    @Column(name = "package_type")
     @Enumerated(EnumType.STRING)
     private PackageType packageType;
 

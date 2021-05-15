@@ -1,4 +1,4 @@
-package com.CompanieTurism.security.controller;
+package com.CompanieTurism.controllers;
 
 import com.CompanieTurism.security.AuthenticateService;
 import com.CompanieTurism.security.AuthenticationException;
@@ -35,7 +35,7 @@ public class AuthenticationController {
 
     @GetMapping(value = "${jwt.refresh.token.uri}")
     public ResponseEntity<Object> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-         return this.authenticateService.refreshAndGetAuthenticationToken(request, tokenHeader, BOUNDED);
+        return this.authenticateService.refreshAndGetAuthenticationToken(request, tokenHeader, BOUNDED);
     }
 
     @ExceptionHandler({AuthenticationException.class})

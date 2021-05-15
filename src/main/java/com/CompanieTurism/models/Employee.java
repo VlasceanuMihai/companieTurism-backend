@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -16,7 +18,7 @@ import java.util.Set;
 @Data
 @Builder
 @EqualsAndHashCode(of = {"cnp"})
-public class Employee {
+public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +56,9 @@ public class Employee {
     @Column(nullable = false)
 //    @JsonIgnore
     private Role role;
+
+    @Column(nullable = false)
+    private Instant createdAt;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
