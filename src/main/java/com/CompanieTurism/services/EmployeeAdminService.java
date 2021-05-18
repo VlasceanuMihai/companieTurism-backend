@@ -4,34 +4,41 @@ import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.dto.EmployeeDto;
 import com.CompanieTurism.enums.Role;
 import com.CompanieTurism.exceptions.EmployeeExistsException;
+import com.CompanieTurism.exceptions.EmployeeNotFoundException;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.EmployeeRepository;
 import com.CompanieTurism.requests.BaseEmployeeRequest;
+import com.CompanieTurism.requests.EmployeeRegisterRequest;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.time.Instant;
 
 @Service
 @Slf4j
-public class AdminService {
+public class EmployeeAdminService {
 
     private final EmployeeService employeeService;
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminService(EmployeeService employeeService,
-                        EmployeeRepository employeeRepository,
-                        PasswordEncoder passwordEncoder) {
+    public EmployeeAdminService(EmployeeService employeeService,
+                                EmployeeRepository employeeRepository,
+                                PasswordEncoder passwordEncoder) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public EmployeeDto createEmployee(BaseEmployeeRequest employeeRequest) {
+    @Transactional
+    @SneakyThrows
+    public EmployeeDto createEmployee(EmployeeRegisterRequest employeeRequest) {
         if (employeeService.checkExistingEmail(employeeRequest.getEmail())
                 || employeeService.checkExistingPhoneNumber(employeeRequest.getPhoneNumber())
                 || employeeService.checkExistingCnp(employeeRequest.getCnp())) {
@@ -48,7 +55,7 @@ public class AdminService {
         return EmployeeDao.TO_EMPLOYEE_DTO.getDestination(employee);
     }
 
-    private Employee getUpdatedEmployee(BaseEmployeeRequest employeeRequest) {
+    private Employee getUpdatedEmployee(EmployeeRegisterRequest employeeRequest) {
         Employee updatedEmployee = new Employee();
         updatedEmployee.setLastName(employeeRequest.getLastName());
         updatedEmployee.setFirstName(employeeRequest.getFirstName());
@@ -64,4 +71,30 @@ public class AdminService {
 
         return updatedEmployee;
     }
+
+    @Transactional
+    public void updateEmployee(Integer employeeId, BaseEmployeeRequest employeeRequest) {
+        if (!this.employeeService.checkExistingId(employeeId)) {
+            log.info("Employee with id {} not found.", employeeId);
+            throw new EmployeeNotFoundException("Employee with id " + employeeId + " not found!");
+        }
+
+        int res = this.employeeRepository.updateEmployee(employeeRequest.getLastName(),
+                employeeRequest.getFirstName(),
+                employeeRequest.getCnp(),
+                employeeRequest.getPhoneNumber(),
+                employeeRequest.getEmail(),
+                employeeRequest.getDateOfEmployment(),
+                employeeRequest.getEmployeeType(),
+                employeeRequest.getWage(),
+                employeeId);
+
+        if (res < 1) {
+            throw new PersistenceException("Cannot update employee with employeeId: " + employeeId);
+        }
+    }
+
+//    public EmployeeDto getEmployee(Integer employeeId) {
+//
+//    }
 }

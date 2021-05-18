@@ -30,13 +30,13 @@ public class Employee implements Serializable {
     @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cnp;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false, name = "date_of_employment")
@@ -59,6 +59,9 @@ public class Employee implements Serializable {
 
     @Column(nullable = false)
     private Instant createdAt;
+
+    @Column(nullable = false)
+    private Instant updatedAt;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
