@@ -28,6 +28,10 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    public boolean checkExistingId(Integer employeeId) {
+        return this.employeeRepository.existsById(employeeId);
+    }
+
     public boolean checkExistingEmail(String email) {
         return this.employeeRepository.existsByEmail(email);
     }

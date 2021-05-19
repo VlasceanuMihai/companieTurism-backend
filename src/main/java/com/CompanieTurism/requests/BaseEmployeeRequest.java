@@ -2,9 +2,9 @@ package com.CompanieTurism.requests;
 
 import com.CompanieTurism.enums.EmployeeType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
+@SuperBuilder
 public class BaseEmployeeRequest {
 
     @NotNull
@@ -55,9 +55,4 @@ public class BaseEmployeeRequest {
 
     @NotNull
     private Integer wage;
-
-    @NotNull
-    @NotBlank
-    @Size(max = 70)
-    private String password;
 }
