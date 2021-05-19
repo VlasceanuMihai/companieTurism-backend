@@ -93,8 +93,4 @@ public class EmployeeAdminService {
             throw new PersistenceException("Cannot update employee with employeeId: " + employeeId);
         }
     }
-
-//    public EmployeeDto getEmployee(Integer employeeId) {
-//
-//    }
 }

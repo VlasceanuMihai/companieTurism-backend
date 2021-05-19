@@ -38,7 +38,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
                        @Param("phoneNumber") String phoneNumber,
                        @Param("email") String email,
                        @Param("dateOfEmployment") LocalDate dateOfEmployment,
-                           @Param("employeeType") EmployeeType employeeType,
+                       @Param("employeeType") EmployeeType employeeType,
                        @Param("wage") Integer wage,
                        @Param("employeeId") Integer employeeId);
 }

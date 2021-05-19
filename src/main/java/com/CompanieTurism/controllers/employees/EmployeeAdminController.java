@@ -36,7 +36,6 @@ public class EmployeeAdminController {
 //    @GetMapping("/v1/employee/{employeeId}")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    public ResponseEntity<Object> employeeProfile(@PathVariable Integer employeeId) {
-//
 //    }
 
     @PostMapping("/v1/createEmployee")

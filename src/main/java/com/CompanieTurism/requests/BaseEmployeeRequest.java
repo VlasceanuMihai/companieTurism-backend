@@ -2,7 +2,6 @@ package com.CompanieTurism.requests;
 
 import com.CompanieTurism.enums.EmployeeType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
