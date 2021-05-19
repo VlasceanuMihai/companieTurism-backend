@@ -13,9 +13,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.ws.rs.Path;
 
 @RestController
-@RequestMapping("/admin/employee")
+@RequestMapping("/admin")
 public class EmployeeAdminController {
 
     private final EmployeeAdminService employeeAdminService;
@@ -48,8 +49,13 @@ public class EmployeeAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> updateEmployee(@PathVariable Integer employeeId,
                                                  @Valid @RequestBody BaseEmployeeRequest employeeRequest) {
-        this.employeeAdminService.updateEmployee(employeeId, employeeRequest);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(this.employeeAdminService.updateEmployee(employeeId, employeeRequest));
     }
 
+    @DeleteMapping("/v1/deleteEmployee/{employeeId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable Integer employeeId) {
+        this.employeeAdminService.deleteEmployee(employeeId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 }
