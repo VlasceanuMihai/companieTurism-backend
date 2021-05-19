@@ -73,7 +73,8 @@ public class EmployeeAdminService {
     }
 
     @Transactional
-    public void updateEmployee(Integer employeeId, BaseEmployeeRequest employeeRequest) {
+    @SneakyThrows
+    public EmployeeDto updateEmployee(Integer employeeId, BaseEmployeeRequest employeeRequest) {
         if (!this.employeeService.checkExistingId(employeeId)) {
             log.info("Employee with id {} not found.", employeeId);
             throw new EmployeeNotFoundException("Employee with id " + employeeId + " not found!");
@@ -92,5 +93,31 @@ public class EmployeeAdminService {
         if (res < 1) {
             throw new PersistenceException("Cannot update employee with employeeId: " + employeeId);
         }
+
+        log.info("Employee with id {} not found has been updated with payload {}", employeeId, employeeRequest);
+        return EmployeeDto.builder()
+                .id(employeeId)
+                .firstName(employeeRequest.getFirstName())
+                .lastName(employeeRequest.getLastName())
+                .cnp(employeeRequest.getCnp())
+                .phoneNumber(employeeRequest.getPhoneNumber())
+                .email(employeeRequest.getEmail())
+                .dateOfEmployment(employeeRequest.getDateOfEmployment())
+                .employeeType(employeeRequest.getEmployeeType())
+                .wage(employeeRequest.getWage())
+                .role(Role.ROLE_USER)
+                .build();
+
+    }
+
+    @Transactional
+    @SneakyThrows
+    public void deleteEmployee(Integer employeeId) {
+        if (!this.employeeService.checkExistingId(employeeId)) {
+            log.info("Employee with id {} not found.", employeeId);
+            throw new EmployeeNotFoundException("Employee with id " + employeeId + " not found!");
+        }
+
+        this.employeeRepository.deleteById(employeeId);
     }
 }

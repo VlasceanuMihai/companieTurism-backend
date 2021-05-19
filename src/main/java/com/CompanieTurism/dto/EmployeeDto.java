@@ -73,6 +73,7 @@ public class EmployeeDto {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonIgnore
     private Instant createdAt;
 
     @JsonIgnore
