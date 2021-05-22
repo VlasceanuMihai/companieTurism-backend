@@ -1,4 +1,4 @@
-package com.CompanieTurism.services;
+package com.CompanieTurism.services.employee;
 
 import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.dto.EmployeeDto;
@@ -20,12 +20,6 @@ public class EmployeeService {
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
-    }
-
-    public List<EmployeeDto> getAllEmployees(Pageable pageable) {
-        return this.employeeRepository.findAll(pageable).stream()
-                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
-                .collect(Collectors.toList());
     }
 
     public boolean checkExistingId(Integer employeeId) {

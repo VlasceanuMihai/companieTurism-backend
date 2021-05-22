@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
-    Optional<Employee> findEmployeeByCnp(String cnp);
+    Optional<Employee> findByCnp(String cnp);
 
     Optional<Employee> findByEmail(String email);
 
@@ -29,9 +29,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Employee SET lastName = :lastName, firstName = :firstName, cnp = :cnp," +
+    @Query(value = "UPDATE Employee " +
+            "SET lastName = :lastName, firstName = :firstName, cnp = :cnp," +
             " phoneNumber = :phoneNumber, email = :email, dateOfEmployment = :dateOfEmployment," +
-            " employeeType = :employeeType, wage = :wage WHERE id = :employeeId")
+            " employeeType = :employeeType, wage = :wage " +
+            "WHERE id = :employeeId")
     int updateEmployee(@Param("lastName") String lastName,
                        @Param("firstName") String firstName,
                        @Param("cnp") String cnp,

@@ -1,9 +1,9 @@
 package com.CompanieTurism.controllers.employees;
 
-import com.CompanieTurism.requests.BaseEmployeeRequest;
-import com.CompanieTurism.requests.EmployeeRegisterRequest;
-import com.CompanieTurism.services.EmployeeAdminService;
-import com.CompanieTurism.services.EmployeeService;
+import com.CompanieTurism.requests.employee.BaseEmployeeRequest;
+import com.CompanieTurism.requests.employee.EmployeeRegisterRequest;
+import com.CompanieTurism.services.employee.EmployeeAdminService;
+import com.CompanieTurism.services.employee.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.ws.rs.Path;
 
 @RestController
 @RequestMapping("/admin")
@@ -31,7 +30,7 @@ public class EmployeeAdminController {
     @GetMapping("/v1/employees")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> getAllEmployees(@PageableDefault(size = 10) Pageable pageable) {
-        return ResponseEntity.ok(this.employeeService.getAllEmployees(pageable));
+        return ResponseEntity.ok(this.employeeAdminService.getAllEmployees(pageable));
     }
 
 //    @GetMapping("/v1/employee/{employeeId}")

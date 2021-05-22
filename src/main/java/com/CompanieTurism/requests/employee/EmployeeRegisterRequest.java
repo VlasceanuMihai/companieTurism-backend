@@ -1,4 +1,4 @@
-package com.CompanieTurism.requests;
+package com.CompanieTurism.requests.employee;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
