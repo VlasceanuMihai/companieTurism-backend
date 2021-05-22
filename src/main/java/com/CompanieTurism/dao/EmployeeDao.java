@@ -30,7 +30,7 @@ public class EmployeeDao {
 
     @Transactional(readOnly = true)
     public Optional<EmployeeDto> findByCnp(String cnp) {
-        return this.employeeRepository.findEmployeeByCnp(cnp).map(TO_EMPLOYEE_DTO::getDestination);
+        return this.employeeRepository.findByCnp(cnp).map(TO_EMPLOYEE_DTO::getDestination);
     }
 
     @Transactional

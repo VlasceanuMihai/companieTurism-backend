@@ -1,4 +1,4 @@
-package com.CompanieTurism.services;
+package com.CompanieTurism.services.employee;
 
 import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.dto.EmployeeDto;
@@ -7,17 +7,20 @@ import com.CompanieTurism.exceptions.EmployeeExistsException;
 import com.CompanieTurism.exceptions.EmployeeNotFoundException;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.EmployeeRepository;
-import com.CompanieTurism.requests.BaseEmployeeRequest;
-import com.CompanieTurism.requests.EmployeeRegisterRequest;
+import com.CompanieTurism.requests.employee.BaseEmployeeRequest;
+import com.CompanieTurism.requests.employee.EmployeeRegisterRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,14 +29,22 @@ public class EmployeeAdminService {
     private final EmployeeService employeeService;
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmployeeDao employeeDao;
 
     @Autowired
     public EmployeeAdminService(EmployeeService employeeService,
                                 EmployeeRepository employeeRepository,
-                                PasswordEncoder passwordEncoder) {
+                                PasswordEncoder passwordEncoder, EmployeeDao employeeDao) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
         this.passwordEncoder = passwordEncoder;
+        this.employeeDao = employeeDao;
+    }
+
+    public List<EmployeeDto> getAllEmployees(Pageable pageable) {
+        return this.employeeRepository.findAll(pageable).stream()
+                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -94,7 +105,7 @@ public class EmployeeAdminService {
             throw new PersistenceException("Cannot update employee with employeeId: " + employeeId);
         }
 
-        log.info("Employee with id {} not found has been updated with payload {}", employeeId, employeeRequest);
+        log.info("Employee with id {} has been updated with payload {}", employeeId, employeeRequest);
         return EmployeeDto.builder()
                 .id(employeeId)
                 .firstName(employeeRequest.getFirstName())
@@ -118,6 +129,7 @@ public class EmployeeAdminService {
             throw new EmployeeNotFoundException("Employee with id " + employeeId + " not found!");
         }
 
-        this.employeeRepository.deleteById(employeeId);
+        this.employeeDao.delete(employeeId);
+        log.info("Employee with id {} has been deleted!", employeeId);
     }
 }

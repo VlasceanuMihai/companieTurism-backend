@@ -23,8 +23,19 @@ public class DocumentDao {
         this.documentRepository = documentRepository;
     }
 
-//    @Transactional(readOnly = true)
-//    public Optional<DocumentDto> findById(Integer id){
-//        return this.documentRepository.findById(id).map(TO_DOCUMENT_DTO::getDestination);
-//    }
+    @Transactional(readOnly = true)
+    public Optional<DocumentDto> findById(Integer id) {
+        return this.documentRepository.findById(id).map(TO_DOCUMENT_DTO::getDestination);
+    }
+
+    @Transactional
+    public DocumentDto save(DocumentDto documentDto) {
+        Document document = this.documentRepository.save(TO_DOCUMENT_ENTITY.getDestination(documentDto));
+        return TO_DOCUMENT_DTO.getDestination(document);
+    }
+
+    @Transactional
+    public void delete(Integer documentId) {
+        this.documentRepository.deleteById(documentId);
+    }
 }

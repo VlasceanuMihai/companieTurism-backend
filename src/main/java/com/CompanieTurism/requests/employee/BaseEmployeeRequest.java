@@ -1,4 +1,4 @@
-package com.CompanieTurism.requests;
+package com.CompanieTurism.requests.employee;
 
 import com.CompanieTurism.enums.EmployeeType;
 import lombok.AllArgsConstructor;
