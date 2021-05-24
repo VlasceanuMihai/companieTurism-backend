@@ -66,4 +66,12 @@ public class Employee implements Serializable {
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
     public Set<Document> documents;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    public Set<Flight> flights;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    public Set<Destination> destinations;
 }
