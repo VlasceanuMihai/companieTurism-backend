@@ -9,6 +9,7 @@ import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.EmployeeRepository;
 import com.CompanieTurism.requests.employee.BaseEmployeeRequest;
 import com.CompanieTurism.requests.employee.EmployeeRegisterRequest;
+import com.CompanieTurism.responses.employee.AdminEmployeeProfileResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,24 @@ public class EmployeeAdminService {
         return this.employeeRepository.findAll(pageable).stream()
                 .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
                 .collect(Collectors.toList());
+    }
+
+    public AdminEmployeeProfileResponse getAdminEmployeeProfile(Integer employeeId) {
+        Employee adminEmployee = this.employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + employeeId + " not found!"));
+
+        return AdminEmployeeProfileResponse.builder()
+                .firstName(adminEmployee.getFirstName())
+                .lastName(adminEmployee.getLastName())
+                .cnp(adminEmployee.getCnp())
+                .phoneNumber(adminEmployee.getPhoneNumber())
+                .email(adminEmployee.getEmail())
+                .dateOfEmployment(adminEmployee.getDateOfEmployment())
+                .employeeType(adminEmployee.getEmployeeType())
+                .wage(adminEmployee.getWage())
+                .role(adminEmployee.getRole())
+                .createdAt(adminEmployee.getCreatedAt())
+                .build();
     }
 
     @Transactional
