@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +29,7 @@ public class FlightDto {
     @NotNull
     @NotBlank
     @FutureOrPresent
-    private Instant dateOfDeparture;
+    private LocalDateTime dateOfDeparture;
 
     @NotNull
     @NotBlank
@@ -37,7 +39,7 @@ public class FlightDto {
     @NotNull
     @NotBlank
     @FutureOrPresent
-    private Instant dateOfArrival;
+    private LocalDateTime dateOfArrival;
 
     @NotNull
     @NotBlank
