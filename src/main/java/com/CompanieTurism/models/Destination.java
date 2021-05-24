@@ -31,8 +31,8 @@ public class Destination {
     private CovidScenario covidScenario;
 
     @ManyToOne
-    @JoinColumn(name = "id_document")
-    private Document document;
+    @JoinColumn(name = "id_employee")
+    private Employee employee;
 
     @OneToMany(mappedBy = "destination")
     @JsonIgnore

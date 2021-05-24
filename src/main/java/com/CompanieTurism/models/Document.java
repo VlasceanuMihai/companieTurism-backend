@@ -31,12 +31,4 @@ public class Document implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_employee")
     private Employee employee;
-
-    @OneToMany(mappedBy = "document")
-    @JsonIgnore
-    public Set<Flight> flights;
-
-    @OneToMany(mappedBy = "document")
-    @JsonIgnore
-    public Set<Destination> destinations;
 }

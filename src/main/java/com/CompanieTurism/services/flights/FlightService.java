@@ -3,9 +3,11 @@ package com.CompanieTurism.services.flights;
 import com.CompanieTurism.dao.FlightDao;
 import com.CompanieTurism.dto.FlightDto;
 import com.CompanieTurism.repository.FlightRepository;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,4 +27,8 @@ public class FlightService {
     public List<FlightDto> getFlights() {
         return flightDao.getFlights();
     }
+
+//    @Transactional
+//    @SneakyThrows
+//    public
 }

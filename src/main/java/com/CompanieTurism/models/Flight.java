@@ -36,6 +36,6 @@ public class Flight {
     private String company;
 
     @ManyToOne
-    @JoinColumn(name = "id_document")
-    private Document document;
+    @JoinColumn(name = "id_employee")
+    private Employee employee;
 }
