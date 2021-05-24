@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "flights")
@@ -22,13 +24,13 @@ public class Flight {
     private String airportDeparture;
 
     @Column(nullable = false, name = "date_of_departure")
-    private Instant dateOfDeparture;
+    private LocalDateTime dateOfDeparture;
 
     @Column(nullable = false)
     private String airportArrival;
 
     @Column(nullable = false, name = "date_of_arrival")
-    private Instant dateOfArrival;
+    private LocalDateTime dateOfArrival;
 
     @Column(nullable = false)
     private String company;
