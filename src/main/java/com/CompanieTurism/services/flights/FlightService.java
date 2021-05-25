@@ -6,6 +6,7 @@ import com.CompanieTurism.repository.FlightRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,5 +29,10 @@ public class FlightService {
 
     public boolean checkExistingId(Integer flightId) {
         return this.flightRepository.existsById(flightId);
+    }
+
+    @Transactional
+    public void deleteFlight(Integer flightId) {
+        this.flightDao.delete(flightId);
     }
 }

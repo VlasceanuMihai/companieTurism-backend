@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,8 +32,18 @@ public class FlightDao {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public Optional<FlightDto> findById(Integer flightId) {
+        return this.flightRepository.findById(flightId).map(TO_FLIGHT_DTO::getDestination);
+    }
+
     @Transactional
-    public FlightDto save(Flight flight){
+    public FlightDto save(Flight flight) {
         return TO_FLIGHT_DTO.getDestination(this.flightRepository.save(flight));
+    }
+
+    @Transactional
+    public void delete(Integer flightId) {
+        this.flightRepository.deleteById(flightId);
     }
 }
