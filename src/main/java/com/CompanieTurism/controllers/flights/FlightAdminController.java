@@ -1,8 +1,8 @@
 package com.CompanieTurism.controllers.flights;
 
 import com.CompanieTurism.requests.flight.BaseFlightRequest;
-import com.CompanieTurism.services.flights.FlightAdminService;
-import com.CompanieTurism.services.flights.FlightService;
+import com.CompanieTurism.services.flight.FlightAdminService;
+import com.CompanieTurism.services.flight.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

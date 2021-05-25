@@ -1,4 +1,4 @@
-package com.CompanieTurism.services.flights;
+package com.CompanieTurism.services.flight;
 
 import com.CompanieTurism.dao.FlightDao;
 import com.CompanieTurism.dto.FlightDto;
