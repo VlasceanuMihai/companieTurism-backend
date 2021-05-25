@@ -4,6 +4,7 @@ import com.CompanieTurism.requests.flight.BaseFlightRequest;
 import com.CompanieTurism.services.flights.FlightAdminService;
 import com.CompanieTurism.services.flights.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,13 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/admin")
-public class FlightController {
+public class FlightAdminController {
 
     private final FlightAdminService flightAdminService;
     private final FlightService flightService;
 
     @Autowired
-    public FlightController(FlightAdminService flightAdminService, FlightService flightService) {
+    public FlightAdminController(FlightAdminService flightAdminService, FlightService flightService) {
         this.flightAdminService = flightAdminService;
         this.flightService = flightService;
     }
@@ -40,5 +41,12 @@ public class FlightController {
     public ResponseEntity<Object> updateFlight(@PathVariable Integer flightId,
                                                @Valid @RequestBody BaseFlightRequest flightRequest) {
         return ResponseEntity.ok(this.flightAdminService.updateFlight(flightId, flightRequest));
+    }
+
+    @DeleteMapping("/v1/deleteFlight/{flightId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> deletefLIGHT(@PathVariable Integer flightId) {
+        this.flightAdminService.deleteFlight(flightId);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 @Service
@@ -44,10 +45,6 @@ public class FlightAdminService {
     @Transactional
     @SneakyThrows
     public BaseFlightResponse createFlight(BaseFlightRequest flightRequest) {
-        return this.saveFlight(flightRequest);
-    }
-
-    private BaseFlightResponse saveFlight(BaseFlightRequest flightRequest){
         Employee employee = this.employeeService.findEmployeeByCnp(flightRequest.getCnp());
 
         FlightDto flightDto = this.flightDao.save(getUpdatedFlight(employee, flightRequest));
@@ -70,11 +67,30 @@ public class FlightAdminService {
         return flight;
     }
 
+    @Transactional
     public BaseFlightResponse updateFlight(Integer flightId, BaseFlightRequest flightRequest) {
-        if (!this.flightService.checkExistingId(flightId)){
-            throw new FlightNotFoundException("Flight with id " + flightId + " not found!");
-        }
+        FlightDto flightDto = this.flightDao.findById(flightId)
+                .orElseThrow(() -> new FlightNotFoundException("Flight with id " + flightId + " not found!"));
 
-        return this.saveFlight(flightRequest);
+        Employee employee = this.employeeService.findEmployeeByCnp(flightRequest.getCnp());
+
+        int res = this.flightRepository.updateFlight(flightId, flightRequest.getAirportDeparture(),
+                flightRequest.getDateOfDeparture(), flightRequest.getAirportArrival(),
+                flightRequest.getDateOfArrival(), flightRequest.getCompany());
+
+        if (res < 1){
+            throw new PersistenceException("Cannot update flight with id: " + flightId);
+        }
+        log.info("Flight with id {} has been updated with payload {}", flightId, flightRequest);
+
+        return BaseFlightResponse.builder()
+                .employeeId(employee.getId())
+                .flightDto(flightDto)
+                .build();
+    }
+
+    @Transactional
+    public void deleteFlight(Integer flightId) {
+        this.flightService.deleteFlight(flightId);
     }
 }
