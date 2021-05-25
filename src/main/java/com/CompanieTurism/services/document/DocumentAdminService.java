@@ -7,7 +7,7 @@ import com.CompanieTurism.models.Document;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.DocumentRepository;
 import com.CompanieTurism.repository.EmployeeRepository;
-import com.CompanieTurism.requests.document.DocumentRequest;
+import com.CompanieTurism.requests.document.BaseDocumentRequest;
 import com.CompanieTurism.responses.document.DocumentResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class DocumentAdminService {
 
     @Transactional
     @SneakyThrows
-    public DocumentResponse createDocument(DocumentRequest request) {
+    public DocumentResponse createDocument(BaseDocumentRequest request) {
         String cnp = request.getCnp();
 
         Employee employee = this.employeeRepository.findByCnp(cnp)
@@ -60,32 +60,32 @@ public class DocumentAdminService {
                 .build();
     }
 
-    private Document getUpdatedDocument(Employee employee, DocumentRequest documentRequest) {
+    private Document getUpdatedDocument(Employee employee, BaseDocumentRequest baseDocumentRequest) {
         Document document = new Document();
         document.setEmployee(employee);
-        document.setDocumentName(documentRequest.getDocumentName());
-        document.setPath(documentRequest.getPath());
+        document.setDocumentName(baseDocumentRequest.getDocumentName());
+        document.setPath(baseDocumentRequest.getPath());
         return document;
     }
 
     @Transactional
-    public DocumentResponse updateDocument(Integer documentId, DocumentRequest documentRequest) {
+    public DocumentResponse updateDocument(Integer documentId, BaseDocumentRequest baseDocumentRequest) {
         if (!this.documentService.checkExistingId(documentId)) {
             log.info("Document with id {} not found.", documentId);
             throw new EmployeeNotFoundException("Document with id " + documentId + " not found!");
         }
-        int res = this.documentRepository.updateDocument(documentId, documentRequest.getDocumentName(), documentRequest.getPath());
+        int res = this.documentRepository.updateDocument(documentId, baseDocumentRequest.getDocumentName(), baseDocumentRequest.getPath());
 
         if (res < 1) {
             throw new PersistenceException("Cannot update document with id: " + documentId);
         }
-        log.info("Document with id {} has been updated with payload {}", documentId, documentRequest);
+        log.info("Document with id {} has been updated with payload {}", documentId, baseDocumentRequest);
 
         Document document = this.documentRepository.findById(documentId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Document with id " + documentId + " not found!"));
 
         return DocumentResponse.builder()
-                .documentName(documentRequest.getDocumentName())
+                .documentName(baseDocumentRequest.getDocumentName())
                 .employeeFirstName(document.getEmployee().getFirstName())
                 .employeeLastName(document.getEmployee().getLastName())
                 .build();

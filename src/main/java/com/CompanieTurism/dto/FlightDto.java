@@ -1,5 +1,7 @@
 package com.CompanieTurism.dto;
 
+import com.CompanieTurism.models.Employee;
+import com.CompanieTurism.responses.employee.EmployeeProfileResponse;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
@@ -7,8 +9,6 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -27,7 +27,6 @@ public class FlightDto {
     private String airportDeparture;
 
     @NotNull
-    @NotBlank
     @FutureOrPresent
     private LocalDateTime dateOfDeparture;
 
@@ -37,7 +36,6 @@ public class FlightDto {
     private String airportArrival;
 
     @NotNull
-    @NotBlank
     @FutureOrPresent
     private LocalDateTime dateOfArrival;
 

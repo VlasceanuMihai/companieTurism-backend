@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Data
 @Builder
-public class DocumentRequest {
+public class BaseDocumentRequest {
 
     private String cnp;
 

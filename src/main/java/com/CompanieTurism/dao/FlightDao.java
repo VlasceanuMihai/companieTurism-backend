@@ -30,4 +30,9 @@ public class FlightDao {
                 .map(TO_FLIGHT_DTO::getDestination)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public FlightDto save(Flight flight){
+        return TO_FLIGHT_DTO.getDestination(this.flightRepository.save(flight));
+    }
 }
