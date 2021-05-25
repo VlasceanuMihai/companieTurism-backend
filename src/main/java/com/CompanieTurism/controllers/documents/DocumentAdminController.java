@@ -1,6 +1,6 @@
 package com.CompanieTurism.controllers.documents;
 
-import com.CompanieTurism.requests.document.DocumentRequest;
+import com.CompanieTurism.requests.document.BaseDocumentRequest;
 import com.CompanieTurism.services.document.DocumentAdminService;
 import com.CompanieTurism.services.document.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +34,15 @@ public class DocumentAdminController {
 
     @PostMapping("/v1/createDocument")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Object> createDocument(@Valid @RequestBody DocumentRequest documentRequest) {
-        return ResponseEntity.ok(this.documentAdminService.createDocument(documentRequest));
+    public ResponseEntity<Object> createDocument(@Valid @RequestBody BaseDocumentRequest baseDocumentRequest) {
+        return ResponseEntity.ok(this.documentAdminService.createDocument(baseDocumentRequest));
     }
 
     @PutMapping("/v1/updateDocument/{documentId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> updateDocument(@PathVariable Integer documentId,
-                                                 @Valid @RequestBody DocumentRequest documentRequest) {
-        return ResponseEntity.ok(this.documentAdminService.updateDocument(documentId, documentRequest));
+                                                 @Valid @RequestBody BaseDocumentRequest baseDocumentRequest) {
+        return ResponseEntity.ok(this.documentAdminService.updateDocument(documentId, baseDocumentRequest));
     }
 
     @DeleteMapping("/v1/deleteDocument/{documentId}")

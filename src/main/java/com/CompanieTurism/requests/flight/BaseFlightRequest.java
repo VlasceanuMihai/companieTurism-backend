@@ -19,11 +19,15 @@ public class BaseFlightRequest {
 
     @NotNull
     @NotBlank
+    @Size(max = 13)
+    private String cnp;
+
+    @NotNull
+    @NotBlank
     @Size(max = 50)
     private String airportDeparture;
 
     @NotNull
-    @NotBlank
     @FutureOrPresent
     private LocalDateTime dateOfDeparture;
 
@@ -33,7 +37,6 @@ public class BaseFlightRequest {
     private String airportArrival;
 
     @NotNull
-    @NotBlank
     @FutureOrPresent
     private LocalDateTime dateOfArrival;
 
