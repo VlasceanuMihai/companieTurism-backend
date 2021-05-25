@@ -1,4 +1,4 @@
-package com.CompanieTurism.services.flights;
+package com.CompanieTurism.services.flight;
 
 import com.CompanieTurism.dao.FlightDao;
 import com.CompanieTurism.dto.FlightDto;
@@ -7,7 +7,7 @@ import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.models.Flight;
 import com.CompanieTurism.repository.FlightRepository;
 import com.CompanieTurism.requests.flight.BaseFlightRequest;
-import com.CompanieTurism.responses.flights.BaseFlightResponse;
+import com.CompanieTurism.responses.flight.BaseFlightResponse;
 import com.CompanieTurism.services.employee.EmployeeService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

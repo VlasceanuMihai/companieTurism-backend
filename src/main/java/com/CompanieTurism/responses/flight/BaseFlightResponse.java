@@ -1,4 +1,4 @@
-package com.CompanieTurism.responses.flights;
+package com.CompanieTurism.responses.flight;
 
 import com.CompanieTurism.dto.FlightDto;
 import lombok.AllArgsConstructor;
