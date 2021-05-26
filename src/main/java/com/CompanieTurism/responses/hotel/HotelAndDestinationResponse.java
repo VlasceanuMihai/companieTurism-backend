@@ -1,14 +1,11 @@
 package com.CompanieTurism.responses.hotel;
 
+import com.CompanieTurism.dto.DestinationDto;
 import com.CompanieTurism.dto.EmployeeDto;
-import com.CompanieTurism.enums.CovidScenario;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,12 +19,7 @@ public class HotelAndDestinationResponse {
 
     private Integer hotelRating;
 
-    private String country;
+    private DestinationDto destination;
 
-    private String city;
-
-    @Enumerated(EnumType.STRING)
-    private CovidScenario covidScenario;
-
-    private EmployeeDto employeeDto;
+    private EmployeeDto employee;
 }

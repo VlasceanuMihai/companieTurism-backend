@@ -1,5 +1,6 @@
 package com.CompanieTurism.services.hotel;
 
+import com.CompanieTurism.dao.DestinationDao;
 import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.dao.HotelDao;
 import com.CompanieTurism.models.Hotel;
@@ -20,14 +21,17 @@ public class HotelService {
     private final HotelDao hotelDao;
     private final HotelRepository hotelRepository;
     private final EmployeeDao employeeDao;
+    private final DestinationDao destinationDao;
 
     @Autowired
     public HotelService(HotelDao hotelDao,
                         HotelRepository hotelRepository,
-                        EmployeeDao employeeDao) {
+                        EmployeeDao employeeDao,
+                        DestinationDao destinationDao) {
         this.hotelDao = hotelDao;
         this.hotelRepository = hotelRepository;
         this.employeeDao = employeeDao;
+        this.destinationDao = destinationDao;
     }
 
     public List<HotelAndDestinationResponse> getHotelsAndDestinations(Pageable pageable) {
@@ -39,10 +43,8 @@ public class HotelService {
                     .hotelId(hotel.getId())
                     .hotelName(hotel.getName())
                     .hotelRating(hotel.getRating())
-                    .country(hotel.getDestination().getCountry())
-                    .city(hotel.getDestination().getCity())
-                    .covidScenario(hotel.getDestination().getCovidScenario())
-                    .employeeDto(EmployeeDao.TO_EMPLOYEE_DTO.getDestination(hotel.getDestination().getEmployee()))
+                    .destination(DestinationDao.TO_DESTINATION_DTO.getDestination(hotel.getDestination()))
+                    .employee(EmployeeDao.TO_EMPLOYEE_DTO.getDestination(hotel.getDestination().getEmployee()))
                     .build();
             response.add(newHotel);
         }
