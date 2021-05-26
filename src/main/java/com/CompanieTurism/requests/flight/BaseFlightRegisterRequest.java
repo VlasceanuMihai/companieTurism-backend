@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Builder
-public class BaseFlightRequest {
+public class BaseFlightRegisterRequest {
 
     @NotNull
     @NotBlank

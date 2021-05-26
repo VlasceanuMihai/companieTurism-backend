@@ -1,6 +1,6 @@
 package com.CompanieTurism.controllers.flights;
 
-import com.CompanieTurism.requests.flight.BaseFlightRequest;
+import com.CompanieTurism.requests.flight.BaseFlightRegisterRequest;
 import com.CompanieTurism.services.flight.FlightAdminService;
 import com.CompanieTurism.services.flight.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +32,14 @@ public class FlightAdminController {
 
     @PostMapping("/v1/createFlight")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Object> createFlight(@Valid @RequestBody BaseFlightRequest flightRequest) {
+    public ResponseEntity<Object> createFlight(@Valid @RequestBody BaseFlightRegisterRequest flightRequest) {
         return ResponseEntity.ok(this.flightAdminService.createFlight(flightRequest));
     }
 
     @PutMapping("/v1/updateFlight/{flightId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> updateFlight(@PathVariable Integer flightId,
-                                               @Valid @RequestBody BaseFlightRequest flightRequest) {
+                                               @Valid @RequestBody BaseFlightRegisterRequest flightRequest) {
         return ResponseEntity.ok(this.flightAdminService.updateFlight(flightId, flightRequest));
     }
 
