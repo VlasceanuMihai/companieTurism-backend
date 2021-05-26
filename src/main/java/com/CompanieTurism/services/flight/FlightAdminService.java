@@ -6,7 +6,7 @@ import com.CompanieTurism.exceptions.FlightNotFoundException;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.models.Flight;
 import com.CompanieTurism.repository.FlightRepository;
-import com.CompanieTurism.requests.flight.BaseFlightRequest;
+import com.CompanieTurism.requests.flight.BaseFlightRegisterRequest;
 import com.CompanieTurism.responses.flight.BaseFlightResponse;
 import com.CompanieTurism.services.employee.EmployeeService;
 import lombok.SneakyThrows;
@@ -44,7 +44,7 @@ public class FlightAdminService {
 
     @Transactional
     @SneakyThrows
-    public BaseFlightResponse createFlight(BaseFlightRequest flightRequest) {
+    public BaseFlightResponse createFlight(BaseFlightRegisterRequest flightRequest) {
         Employee employee = this.employeeService.findEmployeeByCnp(flightRequest.getCnp());
 
         FlightDto flightDto = this.flightDao.save(getUpdatedFlight(employee, flightRequest));
@@ -55,7 +55,7 @@ public class FlightAdminService {
                 .build();
     }
 
-    private Flight getUpdatedFlight(Employee employee, BaseFlightRequest flightRequest) {
+    private Flight getUpdatedFlight(Employee employee, BaseFlightRegisterRequest flightRequest) {
         Flight flight = new Flight();
         flight.setEmployee(employee);
         flight.setAirportDeparture(flightRequest.getAirportDeparture());
@@ -68,7 +68,7 @@ public class FlightAdminService {
     }
 
     @Transactional
-    public BaseFlightResponse updateFlight(Integer flightId, BaseFlightRequest flightRequest) {
+    public BaseFlightResponse updateFlight(Integer flightId, BaseFlightRegisterRequest flightRequest) {
         FlightDto flightDto = this.flightDao.findById(flightId)
                 .orElseThrow(() -> new FlightNotFoundException("Flight with id " + flightId + " not found!"));
 

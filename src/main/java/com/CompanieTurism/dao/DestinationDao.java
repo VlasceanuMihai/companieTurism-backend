@@ -27,4 +27,9 @@ public class DestinationDao {
     public Optional<DestinationDto> findById(Integer destinationId) {
         return this.destinationRepository.findById(destinationId).map(TO_DESTINATION_DTO::getDestination);
     }
+
+    @Transactional
+    public DestinationDto save(Destination destination) {
+        return TO_DESTINATION_DTO.getDestination(this.destinationRepository.save(destination));
+    }
 }

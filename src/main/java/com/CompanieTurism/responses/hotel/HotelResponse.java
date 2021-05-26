@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class HotelAndDestinationResponse {
-
-    private Integer hotelId;
+public class HotelResponse {
 
     private String hotelName;
 

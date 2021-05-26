@@ -37,7 +37,7 @@ public class EmployeeService {
         return this.employeeRepository.existsByCnp(cnp);
     }
 
-    public Employee findEmployeeByCnp(String cnp){
+    public Employee findEmployeeByCnp(String cnp) {
         return this.employeeRepository.findByCnp(cnp)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee with cnp " + cnp + " not found!"));
     }
