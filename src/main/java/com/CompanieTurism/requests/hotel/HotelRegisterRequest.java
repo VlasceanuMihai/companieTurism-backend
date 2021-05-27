@@ -23,7 +23,7 @@ public class HotelRegisterRequest {
 
     @NotNull
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 60)
     private String hotelName;
 
     @NotNull

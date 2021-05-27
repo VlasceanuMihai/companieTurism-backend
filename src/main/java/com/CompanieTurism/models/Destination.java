@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 @Builder
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = {"country", "city"})
 public class Destination {
 
     @Id
