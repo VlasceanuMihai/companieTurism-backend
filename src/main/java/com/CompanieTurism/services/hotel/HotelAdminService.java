@@ -9,6 +9,7 @@ import com.CompanieTurism.exceptions.HotelExistsException;
 import com.CompanieTurism.models.Destination;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.models.Hotel;
+import com.CompanieTurism.repository.DestinationRepository;
 import com.CompanieTurism.repository.HotelRepository;
 import com.CompanieTurism.requests.hotel.HotelRegisterRequest;
 import com.CompanieTurism.responses.hotel.HotelResponse;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -32,18 +34,21 @@ public class HotelAdminService {
     private final EmployeeService employeeService;
     private final EmployeeDao employeeDao;
     private final DestinationDao destinationDao;
+    private final DestinationRepository destinationRepository;
 
     @Autowired
     public HotelAdminService(HotelDao hotelDao,
                              HotelRepository hotelRepository,
                              EmployeeService employeeService,
                              EmployeeDao employeeDao,
-                             DestinationDao destinationDao) {
+                             DestinationDao destinationDao,
+                             DestinationRepository destinationRepository) {
         this.hotelDao = hotelDao;
         this.hotelRepository = hotelRepository;
         this.employeeService = employeeService;
         this.employeeDao = employeeDao;
         this.destinationDao = destinationDao;
+        this.destinationRepository = destinationRepository;
     }
 
     public List<HotelResponse> getHotelsAndDestinations(Pageable pageable) {
@@ -67,36 +72,55 @@ public class HotelAdminService {
     public HotelResponse createHotelWithDestination(HotelRegisterRequest hotelRequest) {
         Employee employee = this.employeeService.findEmployeeByCnp(hotelRequest.getCnp());
 
-        boolean count = this.hotelDao.countDuplicateHotel(employee.getId(), hotelRequest.getHotelName(),
-                hotelRequest.getDestination().getCountry(), hotelRequest.getDestination().getCity());
+        String hotelName = hotelRequest.getHotelName();
+        String country = hotelRequest.getDestination().getCountry();
+        String city = hotelRequest.getDestination().getCity();
+
+        boolean count = this.hotelDao.countDuplicateHotelBasedOnEmployee(employee.getId(), hotelName, country, city);
 
         if (count) {
             throw new HotelExistsException("Employee id: " + employee.getId() + " is already assigned to Hotel: " +
-                    hotelRequest.getHotelName() + ", country: " + hotelRequest.getDestination().getCountry() +
-                    ", city: " + hotelRequest.getDestination().getCity());
+                    hotelName + ", country: " + country + ", city: " + city);
         }
 
-        Destination destination = Destination.builder()
-                .employee(employee)
-                .country(hotelRequest.getDestination().getCountry())
-                .city(hotelRequest.getDestination().getCity())
-                .covidScenario(hotelRequest.getDestination().getCovidScenario())
-                .build();
+        Destination destination;
+        DestinationDto savedDestinationDto;
+        if (!this.destinationRepository.existsByCountryAndCity(country, city)) {
+            destination = Destination.builder()
+                    .employee(employee)
+                    .country(country)
+                    .city(city)
+                    .covidScenario(hotelRequest.getDestination().getCovidScenario())
+                    .build();
 
-        DestinationDto savedDestination = this.destinationDao.save(destination);
+            savedDestinationDto = this.destinationDao.save(destination);
+            log.info("Destination with country: {} and city: {} is saved!", country, city);
+        } else {
+            destination = this.destinationRepository.findByCountryAndCity(country, city);
+            savedDestinationDto = DestinationDao.TO_DESTINATION_DTO.getDestination(destination);
+            log.info("Destination {} already exists!", savedDestinationDto);
+        }
 
-        Hotel hotel = Hotel.builder()
-                .destination(destination)
-                .name(hotelRequest.getHotelName())
-                .rating(hotelRequest.getRating())
-                .build();
+        Optional<Hotel> optionalHotel = this.hotelRepository.findByNameAndDestination(hotelName, destination);
+        Hotel hotel;
+        if (optionalHotel.isPresent()) {
+            hotel = optionalHotel.get();
+            log.info("Hotel with name: {} and destination: {} is already saved!", hotelName, savedDestinationDto);
+        } else {
+            hotel = Hotel.builder()
+                    .destination(destination)
+                    .name(hotelName)
+                    .rating(hotelRequest.getRating())
+                    .build();
 
-        this.hotelDao.save(hotel);
+            HotelDto savedHotelDto = this.hotelDao.save(hotel);
+            log.info("Hotel {} is saved!", savedHotelDto);
+        }
 
         return HotelResponse.builder()
-                .hotelName(hotel.getName())
+                .hotelName(hotelName)
                 .hotelRating(hotel.getRating())
-                .destination(savedDestination)
+                .destination(savedDestinationDto)
                 .employee(EmployeeDao.TO_EMPLOYEE_DTO.getDestination(employee))
                 .build();
     }

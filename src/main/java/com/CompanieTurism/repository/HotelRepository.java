@@ -1,5 +1,6 @@
 package com.CompanieTurism.repository;
 
+import com.CompanieTurism.models.Destination;
 import com.CompanieTurism.models.Hotel;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,9 +9,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
+
+    boolean existsByNameAndDestination(String name, Destination destination);
+
+    Optional<Hotel> findByNameAndDestination(String name, Destination destination);
+
     @Query(value = "SELECT * FROM hotels h " +
             "JOIN destinations d ON d.id = h.id_destination " +
             "JOIN employees e ON e.id = d.id_employee", nativeQuery = true)
