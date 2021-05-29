@@ -13,6 +13,7 @@ import java.util.Set;
 @Data
 @Builder
 @EqualsAndHashCode(of = {"id"})
+@ToString(of = {"id", "name"})
 public class Hotel {
 
     @Id
