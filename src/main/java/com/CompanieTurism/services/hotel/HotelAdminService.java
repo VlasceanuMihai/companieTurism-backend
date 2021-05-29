@@ -6,6 +6,7 @@ import com.CompanieTurism.dao.HotelDao;
 import com.CompanieTurism.dto.DestinationDto;
 import com.CompanieTurism.dto.HotelDto;
 import com.CompanieTurism.exceptions.HotelExistsException;
+import com.CompanieTurism.exceptions.HotelNotFoundException;
 import com.CompanieTurism.models.Destination;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.models.Hotel;
@@ -31,6 +32,7 @@ public class HotelAdminService {
 
     private final HotelDao hotelDao;
     private final HotelRepository hotelRepository;
+    private final HotelService hotelService;
     private final EmployeeService employeeService;
     private final EmployeeDao employeeDao;
     private final DestinationDao destinationDao;
@@ -39,12 +41,14 @@ public class HotelAdminService {
     @Autowired
     public HotelAdminService(HotelDao hotelDao,
                              HotelRepository hotelRepository,
+                             HotelService hotelService,
                              EmployeeService employeeService,
                              EmployeeDao employeeDao,
                              DestinationDao destinationDao,
                              DestinationRepository destinationRepository) {
         this.hotelDao = hotelDao;
         this.hotelRepository = hotelRepository;
+        this.hotelService = hotelService;
         this.employeeService = employeeService;
         this.employeeDao = employeeDao;
         this.destinationDao = destinationDao;
@@ -85,7 +89,7 @@ public class HotelAdminService {
 
         Destination destination;
         DestinationDto savedDestinationDto;
-        if (!this.destinationRepository.existsByCountryAndCity(country, city)) {
+        if (!this.destinationRepository.existsByEmployeeAndCountryAndCity(employee, country, city)) {
             destination = Destination.builder()
                     .employee(employee)
                     .country(country)
@@ -96,7 +100,7 @@ public class HotelAdminService {
             savedDestinationDto = this.destinationDao.save(destination);
             log.info("Destination with country: {} and city: {} is saved!", country, city);
         } else {
-            destination = this.destinationRepository.findByCountryAndCity(country, city);
+            destination = this.destinationRepository.findByEmployeeAndCountryAndCity(employee, country, city);
             savedDestinationDto = DestinationDao.TO_DESTINATION_DTO.getDestination(destination);
             log.info("Destination {} already exists!", savedDestinationDto);
         }
@@ -105,7 +109,9 @@ public class HotelAdminService {
         Hotel hotel;
         if (optionalHotel.isPresent()) {
             hotel = optionalHotel.get();
-            log.info("Hotel with name: {} and destination: {} is already saved!", hotelName, savedDestinationDto);
+            log.info("Hotel with name: {} and destination: {} is already saved for employee id: {}!",
+                    hotelName, savedDestinationDto, employee.getId());
+            throw new HotelExistsException("Hotel with id: " + hotel.getId() + " is already saved!");
         } else {
             hotel = Hotel.builder()
                     .destination(destination)
@@ -124,4 +130,19 @@ public class HotelAdminService {
                 .employee(EmployeeDao.TO_EMPLOYEE_DTO.getDestination(employee))
                 .build();
     }
+
+    @Transactional
+    @SneakyThrows
+    public void deleteHotel(Integer hotelId) {
+        Hotel hotel = this.hotelService.findHotel(hotelId);
+
+        this.hotelDao.delete(hotelId);
+        log.info("Hotel with id {} has been deleted!", hotelId);
+
+
+        this.destinationDao.delete(hotel.getDestination().getId());
+        log.info("Destination with id {} has been deleted!", hotel.getDestination().getId());
+    }
+
+
 }

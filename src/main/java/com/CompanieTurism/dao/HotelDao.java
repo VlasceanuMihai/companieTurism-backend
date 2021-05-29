@@ -33,4 +33,9 @@ public class HotelDao {
     public HotelDto save(Hotel hotel) {
         return TO_HOTEL_DTO.getDestination(this.hotelRepository.save(hotel));
     }
+
+    @Transactional
+    public void delete(Integer hotelId) {
+        this.hotelRepository.deleteById(hotelId);
+    }
 }

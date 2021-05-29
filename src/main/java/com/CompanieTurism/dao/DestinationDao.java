@@ -32,4 +32,9 @@ public class DestinationDao {
     public DestinationDto save(Destination destination) {
         return TO_DESTINATION_DTO.getDestination(this.destinationRepository.save(destination));
     }
+
+    @Transactional
+    public void delete(Integer destinationId) {
+        this.destinationRepository.deleteById(destinationId);
+    }
 }
