@@ -6,7 +6,6 @@ import com.CompanieTurism.dao.HotelDao;
 import com.CompanieTurism.dto.DestinationDto;
 import com.CompanieTurism.dto.HotelDto;
 import com.CompanieTurism.exceptions.HotelExistsException;
-import com.CompanieTurism.exceptions.HotelNotFoundException;
 import com.CompanieTurism.models.Destination;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.models.Hotel;
@@ -135,13 +134,18 @@ public class HotelAdminService {
     @SneakyThrows
     public void deleteHotel(Integer hotelId) {
         Hotel hotel = this.hotelService.findHotel(hotelId);
+        Integer destinationId = hotel.getDestination().getId();
 
         this.hotelDao.delete(hotelId);
         log.info("Hotel with id {} has been deleted!", hotelId);
 
+        List<Hotel> destinations = this.hotelRepository.findByDestinationId(destinationId);
+        log.info("Destinations {}", destinations);
 
-        this.destinationDao.delete(hotel.getDestination().getId());
-        log.info("Destination with id {} has been deleted!", hotel.getDestination().getId());
+        if (destinations.isEmpty()) {
+            this.destinationDao.delete(hotel.getDestination().getId());
+            log.info("Destination with id {} has been deleted!", hotel.getDestination().getId());
+        }
     }
 
 
