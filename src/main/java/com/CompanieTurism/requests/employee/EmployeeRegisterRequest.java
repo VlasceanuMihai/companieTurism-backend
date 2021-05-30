@@ -17,7 +17,7 @@ public class EmployeeRegisterRequest extends BaseEmployeeRequest {
 
     @NotNull
     @NotBlank
-    @Size(max = 70)
+    @Size(min = 5, max = 70)
     private String password;
 }
 
