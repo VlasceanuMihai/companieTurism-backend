@@ -18,7 +18,7 @@ public class AccommodationPackage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "package_type")
+    @Column
     @Enumerated(EnumType.STRING)
     private PackageType packageType;
 
@@ -34,10 +34,10 @@ public class AccommodationPackage {
     @Column(nullable = false)
     private Integer adultsNumber;
 
-    @Column(name = "numar_copii")
+    @Column
     private Integer kidsNumber;
 
-    @Column(nullable = false, name = "pret_total")
+    @Column(nullable = false)
     private Integer totalPrice;
 
     @ManyToOne

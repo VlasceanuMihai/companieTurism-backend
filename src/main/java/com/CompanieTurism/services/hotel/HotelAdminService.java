@@ -33,25 +33,25 @@ public class HotelAdminService {
     private final HotelRepository hotelRepository;
     private final HotelService hotelService;
     private final EmployeeService employeeService;
-    private final EmployeeDao employeeDao;
     private final DestinationDao destinationDao;
     private final DestinationRepository destinationRepository;
+    private final AccommodationPackageService accommodationPackageService;
 
     @Autowired
     public HotelAdminService(HotelDao hotelDao,
                              HotelRepository hotelRepository,
                              HotelService hotelService,
                              EmployeeService employeeService,
-                             EmployeeDao employeeDao,
                              DestinationDao destinationDao,
-                             DestinationRepository destinationRepository) {
+                             DestinationRepository destinationRepository,
+                             AccommodationPackageService accommodationPackageService) {
         this.hotelDao = hotelDao;
         this.hotelRepository = hotelRepository;
         this.hotelService = hotelService;
         this.employeeService = employeeService;
-        this.employeeDao = employeeDao;
         this.destinationDao = destinationDao;
         this.destinationRepository = destinationRepository;
+        this.accommodationPackageService = accommodationPackageService;
     }
 
     public List<HotelResponse> getHotelsAndDestinations(Pageable pageable) {
@@ -79,11 +79,11 @@ public class HotelAdminService {
         String country = hotelRequest.getDestination().getCountry();
         String city = hotelRequest.getDestination().getCity();
 
-        boolean count = this.hotelDao.countDuplicateHotelBasedOnEmployee(employee.getId(), hotelName, country, city);
+        boolean checkExistingHotel = this.hotelDao.countDuplicateHotelBasedOnEmployee(employee.getId(), hotelName, country, city);
 
-        if (count) {
-            throw new HotelExistsException("Employee id: " + employee.getId() + " is already assigned to Hotel: " +
-                    hotelName + ", country: " + country + ", city: " + city);
+        if (checkExistingHotel) {
+            throw new HotelExistsException(" Hotel: " + hotelName + ", country: " + country + ", city: " + city +
+                    " is already assigned to an employee id: " + employee.getId());
         }
 
         Destination destination;
@@ -134,6 +134,7 @@ public class HotelAdminService {
     @SneakyThrows
     public void deleteHotel(Integer hotelId) {
         Hotel hotel = this.hotelService.findHotel(hotelId);
+//        Integer accommodationId = this.accommodationPackageService.getAccommodationPackageId(hotelId);
         Integer destinationId = hotel.getDestination().getId();
 
         this.hotelDao.delete(hotelId);
