@@ -25,13 +25,11 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 
     @Query(value = "SELECT COUNT(*) FROM hotels h " +
             "JOIN destinations d ON d.id = h.id_destination " +
-            "JOIN employees e ON e.id = d.id_employee " +
-            "WHERE e.id = :employeeId AND h.name = :hotelName " +
-            "AND d.country = :country AND d.city = :city", nativeQuery = true)
-    int countAllByEmployeeAndHotelAndDestination(@Param("employeeId") Integer employeeId,
-                                                 @Param("hotelName") String hotelName,
-                                                 @Param("country") String country,
-                                                 @Param("city") String city);
+            "WHERE h.name = :hotelName AND d.country = :country AND d.city = :city", nativeQuery = true)
+    int countAllByEmployeeAndHotelAndDestination(
+            @Param("hotelName") String hotelName,
+            @Param("country") String country,
+            @Param("city") String city);
 
     @Query(value = "SELECT COUNT(*) FROM hotels h " +
             "WHERE h.id_destination = :destinationId", nativeQuery = true)

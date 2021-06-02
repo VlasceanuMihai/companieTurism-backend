@@ -29,5 +29,6 @@ public class HotelRegisterRequest {
     @NotNull
     private Integer rating;
 
+    @NotNull
     private DestinationRegisterRequest destination;
 }
