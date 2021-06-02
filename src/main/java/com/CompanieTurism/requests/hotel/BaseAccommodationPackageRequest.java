@@ -1,8 +1,10 @@
-package com.CompanieTurism.dto;
+package com.CompanieTurism.requests.hotel;
 
 import com.CompanieTurism.enums.PackageType;
-import com.googlecode.jmapper.annotations.JGlobalMap;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -10,12 +12,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
-@EqualsAndHashCode(of = {"id"})
-@JGlobalMap
-public class AccommodationPackageDto {
-
-    private Integer id;
+@SuperBuilder
+public class BaseAccommodationPackageRequest {
 
     @NotNull
     private PackageType packageType;
@@ -33,7 +31,4 @@ public class AccommodationPackageDto {
     private Integer adultsNumber;
 
     private Integer kidsNumber;
-
-    @NotNull
-    private Integer totalPrice;
 }
