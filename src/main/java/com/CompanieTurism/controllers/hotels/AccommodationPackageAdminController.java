@@ -4,6 +4,7 @@ import com.CompanieTurism.requests.hotel.BaseAccommodationPackageRequest;
 import com.CompanieTurism.services.hotel.AccommodationPackageAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public class AccommodationPackageAdminController {
     }
 
     @GetMapping("/v1/generateTotalPrice")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> generateTotalPrice(@Valid @RequestBody BaseAccommodationPackageRequest accommodationPackageRequest) {
         return ResponseEntity.ok(this.accommodationPackageService.generateTotalPrice(accommodationPackageRequest));
     }
