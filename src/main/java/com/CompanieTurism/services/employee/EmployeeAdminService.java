@@ -42,8 +42,14 @@ public class EmployeeAdminService {
         this.employeeDao = employeeDao;
     }
 
-    public List<EmployeeDto> getAllEmployees(Pageable pageable) {
+    public List<EmployeeDto> getEmployeesByPageable(Pageable pageable) {
         return this.employeeRepository.findAll(pageable).stream()
+                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeDto> getAllEmployees() {
+        return this.employeeRepository.findAll().stream()
                 .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
                 .collect(Collectors.toList());
     }

@@ -83,27 +83,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cacheControl(); // disable caching
     }
 
-//    @Override
-//    public void configure(WebSecurity webSecurity) throws Exception {
-//        webSecurity
-//                .ignoring()
-//                .antMatchers(
-//                        HttpMethod.POST,
-//                        authenticationPath
-//                )
-//                .antMatchers(
-//                        HttpMethod.POST,
-//                        "/v1/addAdmin"
-//                )
-//                .antMatchers(HttpMethod.OPTIONS, "/**")
-//                .and()
-//                .ignoring()
-//                .antMatchers(
-//                        HttpMethod.GET,
-//                        "/" // Other stuff you want to ignore
-//                )
-//                .and()
-//                .ignoring()
-//                .antMatchers("/h2-console/**/**"); // Should not be in Production!!!
-//    }
+    @Override
+    public void configure(WebSecurity webSecurity) throws Exception {
+        webSecurity
+                .ignoring()
+                .antMatchers(
+                        HttpMethod.POST,
+                        authenticationPath
+                )
+                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .and()
+                .ignoring()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/" // Other stuff you want to ignore
+                )
+                .and()
+                .ignoring()
+                .antMatchers("/h2-console/**/**"); // Should not be in Production!!!
+    }
 }
