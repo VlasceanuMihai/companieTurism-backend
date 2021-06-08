@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeAdminController {
 
     private final EmployeeAdminService employeeAdminService;
@@ -31,8 +32,14 @@ public class EmployeeAdminController {
 
     @GetMapping("/v1/employees")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Object> getAllEmployees(@PageableDefault(size = 10) Pageable pageable) {
-        return ResponseEntity.ok(this.employeeAdminService.getAllEmployees(pageable));
+    public ResponseEntity<Object> getEmployees(@PageableDefault(size = 2) Pageable pageable) {
+        return ResponseEntity.ok(this.employeeAdminService.getEmployeesByPageable(pageable));
+    }
+
+    @GetMapping("/v1/getAllEmployees")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> getAllEmployees() {
+        return ResponseEntity.ok(this.employeeAdminService.getAllEmployees());
     }
 
     @GetMapping("/v1/profile")
