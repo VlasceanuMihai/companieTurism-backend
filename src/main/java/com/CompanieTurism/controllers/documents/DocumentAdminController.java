@@ -15,6 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin(origins = "http://localhost:3000")
 public class DocumentAdminController {
 
     private final DocumentAdminService documentAdminService;
@@ -28,8 +29,14 @@ public class DocumentAdminController {
 
     @GetMapping("/v1/documents")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Object> getAllDocuments(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Object> getDocumentsByPageable(@PageableDefault(size = 10) Pageable pageable) {
         return ResponseEntity.ok(this.documentAdminService.getDocumentsByEmployeeAndDocumentName(pageable));
+    }
+
+    @GetMapping("/v1/getAllDocuments")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> getAllDocuments() {
+        return ResponseEntity.ok(this.documentAdminService.getAllDocumentsByEmployeeAndDocumentName());
     }
 
     @PostMapping("/v1/createDocument")

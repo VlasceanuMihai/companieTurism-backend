@@ -21,7 +21,12 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     @Query(value = "SELECT * FROM hotels h " +
             "JOIN destinations d ON d.id = h.id_destination " +
             "JOIN employees e ON e.id = d.id_employee", nativeQuery = true)
-    List<Hotel> findHotels(Pageable pageable);
+    List<Hotel> findHotelsByPageable(Pageable pageable);
+
+    @Query(value = "SELECT * FROM hotels h " +
+            "JOIN destinations d ON d.id = h.id_destination " +
+            "JOIN employees e ON e.id = d.id_employee", nativeQuery = true)
+    List<Hotel> findHotels();
 
     @Query(value = "SELECT COUNT(*) FROM hotels h " +
             "JOIN destinations d ON d.id = h.id_destination " +

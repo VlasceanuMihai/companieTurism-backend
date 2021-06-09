@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class HotelResponse {
 
+    private Integer id;
+
     private String hotelName;
 
     private Integer hotelRating;

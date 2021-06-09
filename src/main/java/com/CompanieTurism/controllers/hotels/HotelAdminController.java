@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin(origins = "http://localhost:3000")
 public class HotelAdminController {
 
     private final HotelAdminService hotelAdminService;
@@ -25,8 +26,14 @@ public class HotelAdminController {
 
     @GetMapping("/v1/hotels")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Object> getHotels(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(this.hotelAdminService.getHotelsAndDestinations(pageable));
+    public ResponseEntity<Object> getHotelsByPageable(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(this.hotelAdminService.getHotelsAndDestinationsByPageable(pageable));
+    }
+
+    @GetMapping("/v1/getAllHotels")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> getHotels() {
+        return ResponseEntity.ok(this.hotelAdminService.getHotelsAndDestinations());
     }
 
     @PostMapping("/v1/createHotel")

@@ -40,7 +40,11 @@ public class DocumentAdminService {
     }
 
     public List<DocumentResponse> getDocumentsByEmployeeAndDocumentName(Pageable pageable) {
-        return this.documentRepository.findAllByEmployeeAndDocumentName(pageable);
+        return this.documentRepository.findByEmployeeAndDocumentName(pageable);
+    }
+
+    public List<DocumentResponse> getAllDocumentsByEmployeeAndDocumentName() {
+        return this.documentRepository.findAllByPageableBasedOnEmployeeAndDocumentName();
     }
 
     @Transactional
@@ -54,6 +58,7 @@ public class DocumentAdminService {
         Document document = this.documentRepository.save(this.getUpdatedDocument(employee, request));
 
         return DocumentResponse.builder()
+                .id(document.getId())
                 .documentName(document.getDocumentName())
                 .employeeFirstName(employee.getFirstName())
                 .employeeLastName(employee.getLastName())

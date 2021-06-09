@@ -54,12 +54,30 @@ public class HotelAdminService {
         this.accommodationPackageService = accommodationPackageService;
     }
 
-    public List<HotelResponse> getHotelsAndDestinations(Pageable pageable) {
-        List<Hotel> hotels = this.hotelRepository.findHotels(pageable);
+    public List<HotelResponse> getHotelsAndDestinationsByPageable(Pageable pageable) {
+        List<Hotel> hotels = this.hotelRepository.findHotelsByPageable(pageable);
 
         List<HotelResponse> response = new ArrayList<>();
         for (Hotel hotel : hotels) {
             HotelResponse newHotel = HotelResponse.builder()
+                    .id(hotel.getId())
+                    .hotelName(hotel.getName())
+                    .hotelRating(hotel.getRating())
+                    .destination(DestinationDao.TO_DESTINATION_DTO.getDestination(hotel.getDestination()))
+                    .employee(EmployeeDao.TO_EMPLOYEE_DTO.getDestination(hotel.getDestination().getEmployee()))
+                    .build();
+            response.add(newHotel);
+        }
+        return response;
+    }
+
+    public List<HotelResponse> getHotelsAndDestinations() {
+        List<Hotel> hotels = this.hotelRepository.findHotels();
+
+        List<HotelResponse> response = new ArrayList<>();
+        for (Hotel hotel : hotels) {
+            HotelResponse newHotel = HotelResponse.builder()
+                    .id(hotel.getId())
                     .hotelName(hotel.getName())
                     .hotelRating(hotel.getRating())
                     .destination(DestinationDao.TO_DESTINATION_DTO.getDestination(hotel.getDestination()))

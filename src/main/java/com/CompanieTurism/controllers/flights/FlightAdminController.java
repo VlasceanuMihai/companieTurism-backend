@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin(origins = "http://localhost:3000")
 public class FlightAdminController {
 
     private final FlightAdminService flightAdminService;
