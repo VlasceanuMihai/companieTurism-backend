@@ -167,5 +167,16 @@ public class HotelAdminService {
         }
     }
 
+    @Transactional
+    @SneakyThrows
+    public void deleteHotelBasedOnEmployeeId(Integer employeeId) {
+        List<Hotel> hotels = this.hotelRepository.findAllByEmployeeId(employeeId);
+        if (hotels.isEmpty()) {
+            log.info("No hotels for employee id {}", employeeId);
+            return;
+        }
+
+        this.hotelDao.deleteAll(hotels);
+    }
 
 }

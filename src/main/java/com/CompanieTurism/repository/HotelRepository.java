@@ -43,6 +43,12 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     @Query(value = "SELECT h FROM Hotel h WHERE h.destination.id IN (:destinationId)")
     List<Hotel> findByDestinationId(Integer destinationId);
 
+    @Query(value = "SELECT * FROM hotels h " +
+            "JOIN destinations d ON d.id = h.id_destination " +
+            "JOIN employees e ON e.id = d.id_employee " +
+            "WHERE e.id = :employeeId", nativeQuery = true)
+    List<Hotel> findAllByEmployeeId(@Param("employeeId") Integer employeeId);
+
 
     /*
     SELECT hotels.id,hotels.name,hotels.rating,destinations.country,destinations.city,destinations.covid_scenario,employees.last_name,employees.first_name

@@ -10,6 +10,7 @@ import com.CompanieTurism.repository.EmployeeRepository;
 import com.CompanieTurism.requests.employee.BaseEmployeeRequest;
 import com.CompanieTurism.requests.employee.EmployeeRegisterRequest;
 import com.CompanieTurism.responses.employee.EmployeeProfileResponse;
+import com.CompanieTurism.services.hotel.HotelAdminService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +32,19 @@ public class EmployeeAdminService {
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmployeeDao employeeDao;
+    private final HotelAdminService hotelAdminService;
 
     @Autowired
     public EmployeeAdminService(EmployeeService employeeService,
                                 EmployeeRepository employeeRepository,
-                                PasswordEncoder passwordEncoder, EmployeeDao employeeDao) {
+                                PasswordEncoder passwordEncoder,
+                                EmployeeDao employeeDao,
+                                HotelAdminService hotelAdminService) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
         this.passwordEncoder = passwordEncoder;
         this.employeeDao = employeeDao;
+        this.hotelAdminService = hotelAdminService;
     }
 
     public List<EmployeeDto> getEmployeesByPageable(Pageable pageable) {
@@ -153,6 +158,8 @@ public class EmployeeAdminService {
             log.info("Employee with id {} not found.", employeeId);
             throw new EmployeeNotFoundException("Employee with id " + employeeId + " not found!");
         }
+
+        this.hotelAdminService.deleteHotelBasedOnEmployeeId(employeeId);
 
         this.employeeDao.delete(employeeId);
         log.info("Employee with id {} has been deleted!", employeeId);

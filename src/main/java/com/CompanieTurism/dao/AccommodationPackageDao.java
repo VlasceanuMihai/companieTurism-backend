@@ -6,6 +6,9 @@ import com.CompanieTurism.repository.AccommodationPackageRepository;
 import com.googlecode.jmapper.JMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class AccommodationPackageDao {
@@ -18,5 +21,10 @@ public class AccommodationPackageDao {
     @Autowired
     public AccommodationPackageDao(AccommodationPackageRepository accommodationPackageRepository) {
         this.accommodationPackageRepository = accommodationPackageRepository;
+    }
+
+    @Transactional
+    public void deleteAll(List<AccommodationPackage> accommodationPackages){
+        this.accommodationPackageRepository.deleteAll(accommodationPackages);
     }
 }
