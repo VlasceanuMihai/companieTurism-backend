@@ -1,12 +1,16 @@
 package com.CompanieTurism.services.hotel;
 
+import com.CompanieTurism.dao.AccommodationPackageDao;
 import com.CompanieTurism.enums.PackageType;
 import com.CompanieTurism.models.AccommodationPackage;
+import com.CompanieTurism.repository.AccommodationPackageRepository;
 import com.CompanieTurism.requests.hotel.BaseAccommodationPackageRequest;
 import com.CompanieTurism.responses.hotel.TotalPriceResponse;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,10 +19,16 @@ import java.util.List;
 public class AccommodationPackageAdminService {
 
     private final AccommodationPackageService accommodationPackageService;
+    private final AccommodationPackageDao accommodationPackageDao;
+    private final AccommodationPackageRepository accommodationPackageRepository;
 
     @Autowired
-    public AccommodationPackageAdminService(AccommodationPackageService accommodationPackageService) {
+    public AccommodationPackageAdminService(AccommodationPackageService accommodationPackageService,
+                                            AccommodationPackageDao accommodationPackageDao,
+                                            AccommodationPackageRepository accommodationPackageRepository) {
         this.accommodationPackageService = accommodationPackageService;
+        this.accommodationPackageDao = accommodationPackageDao;
+        this.accommodationPackageRepository = accommodationPackageRepository;
     }
 
     public List<AccommodationPackage> getAccommodationPackages(Integer hotelId) {
@@ -49,5 +59,17 @@ public class AccommodationPackageAdminService {
     private Integer calculateTotalPrice(BaseAccommodationPackageRequest accommodationPackage, Integer packageTypeValue) {
         return ((accommodationPackage.getPricePerNight() * accommodationPackage.getNightsNumber())
                 * accommodationPackage.getRoomsNumber()) + packageTypeValue;
+    }
+
+    @Transactional
+    @SneakyThrows
+    public void deleteAccommodationBasedOnEmployeeId(Integer employeeId) {
+        List<AccommodationPackage> accommodationPackages = this.accommodationPackageRepository.findAllByEmployeeId(employeeId);
+        if (accommodationPackages.isEmpty()) {
+            log.info("No accommodations for employee id {}", employeeId);
+            return;
+        }
+
+        this.accommodationPackageDao.deleteAll(accommodationPackages);
     }
 }

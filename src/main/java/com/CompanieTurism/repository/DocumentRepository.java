@@ -15,10 +15,19 @@ import java.util.List;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Integer> {
 
-    @Query(value = "SELECT new com.CompanieTurism.responses.document.DocumentResponse(e.lastName, e.firstName, d.documentName) " +
+    @Query(value = "SELECT new com.CompanieTurism.responses.document.DocumentResponse" +
+            "(d.id, e.lastName, e.firstName, d.documentName) " +
             "FROM Document d " +
             "JOIN Employee e ON e.id = d.employee.id")
-    List<DocumentResponse> findAllByEmployeeAndDocumentName(Pageable pageable);
+    List<DocumentResponse> findByEmployeeAndDocumentName(Pageable pageable);
+
+    @Query(value = "SELECT new com.CompanieTurism.responses.document.DocumentResponse" +
+            "(d.id, e.lastName, e.firstName, d.documentName) " +
+            "FROM Document d " +
+            "JOIN Employee e ON e.id = d.employee.id")
+    List<DocumentResponse> findAllByPageableBasedOnEmployeeAndDocumentName();
+
+    List<Document> findAllByEmployeeId(@Param("employeeId") Integer employeeId);
 
     @Modifying
     @Transactional

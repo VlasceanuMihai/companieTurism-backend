@@ -78,7 +78,7 @@ public class FlightAdminService {
                 flightRequest.getDateOfDeparture(), flightRequest.getAirportArrival(),
                 flightRequest.getDateOfArrival(), flightRequest.getCompany());
 
-        if (res < 1){
+        if (res < 1) {
             throw new PersistenceException("Cannot update flight with id: " + flightId);
         }
         log.info("Flight with id {} has been updated with payload {}", flightId, flightRequest);
@@ -92,5 +92,16 @@ public class FlightAdminService {
     @Transactional
     public void deleteFlight(Integer flightId) {
         this.flightService.deleteFlight(flightId);
+    }
+
+    @Transactional
+    public void deleteFlightBasedOnEmployeeId(Integer employeeId) {
+        List<Flight> flights = this.flightRepository.findAllByEmployeeId(employeeId);
+        if (flights.isEmpty()) {
+            log.info("No flights for employee id {}", employeeId);
+            return;
+        }
+
+        this.flightDao.deleteAll(flights);
     }
 }

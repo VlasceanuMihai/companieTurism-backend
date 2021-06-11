@@ -40,7 +40,11 @@ public class DocumentAdminService {
     }
 
     public List<DocumentResponse> getDocumentsByEmployeeAndDocumentName(Pageable pageable) {
-        return this.documentRepository.findAllByEmployeeAndDocumentName(pageable);
+        return this.documentRepository.findByEmployeeAndDocumentName(pageable);
+    }
+
+    public List<DocumentResponse> getAllDocumentsByEmployeeAndDocumentName() {
+        return this.documentRepository.findAllByPageableBasedOnEmployeeAndDocumentName();
     }
 
     @Transactional
@@ -54,6 +58,7 @@ public class DocumentAdminService {
         Document document = this.documentRepository.save(this.getUpdatedDocument(employee, request));
 
         return DocumentResponse.builder()
+                .id(document.getId())
                 .documentName(document.getDocumentName())
                 .employeeFirstName(employee.getFirstName())
                 .employeeLastName(employee.getLastName())
@@ -101,6 +106,17 @@ public class DocumentAdminService {
 
         this.documentDao.delete(documentId);
         log.info("Document with id {} has been deleted!", documentId);
+    }
 
+    @Transactional
+    @SneakyThrows
+    public void deleteDocumentBasedOnEmployeeId(Integer employeeId) {
+        List<Document> documents = this.documentRepository.findAllByEmployeeId(employeeId);
+        if (documents.isEmpty()) {
+            log.info("No documents for employee id {}", employeeId);
+            return;
+        }
+
+        this.documentDao.deleteAll(documents);
     }
 }

@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class DocumentResponse {
 
+    private Integer id;
+
     private String employeeFirstName;
 
     private String employeeLastName;
