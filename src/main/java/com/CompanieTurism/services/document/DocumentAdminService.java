@@ -106,6 +106,17 @@ public class DocumentAdminService {
 
         this.documentDao.delete(documentId);
         log.info("Document with id {} has been deleted!", documentId);
+    }
 
+    @Transactional
+    @SneakyThrows
+    public void deleteDocumentBasedOnEmployeeId(Integer employeeId) {
+        List<Document> documents = this.documentRepository.findAllByEmployeeId(employeeId);
+        if (documents.isEmpty()) {
+            log.info("No documents for employee id {}", employeeId);
+            return;
+        }
+
+        this.documentDao.deleteAll(documents);
     }
 }

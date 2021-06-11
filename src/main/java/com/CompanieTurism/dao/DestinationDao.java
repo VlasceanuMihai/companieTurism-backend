@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,5 +37,10 @@ public class DestinationDao {
     @Transactional
     public void delete(Integer destinationId) {
         this.destinationRepository.deleteById(destinationId);
+    }
+
+    @Transactional
+    public void deleteAll(List<Destination> destinations) {
+        this.destinationRepository.deleteAll(destinations);
     }
 }

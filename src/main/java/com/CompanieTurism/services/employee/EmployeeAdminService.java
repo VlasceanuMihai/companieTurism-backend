@@ -10,6 +10,10 @@ import com.CompanieTurism.repository.EmployeeRepository;
 import com.CompanieTurism.requests.employee.BaseEmployeeRequest;
 import com.CompanieTurism.requests.employee.EmployeeRegisterRequest;
 import com.CompanieTurism.responses.employee.EmployeeProfileResponse;
+import com.CompanieTurism.services.document.DocumentAdminService;
+import com.CompanieTurism.services.flight.FlightAdminService;
+import com.CompanieTurism.services.hotel.AccommodationPackageAdminService;
+import com.CompanieTurism.services.hotel.DestinationAdminService;
 import com.CompanieTurism.services.hotel.HotelAdminService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -33,18 +37,30 @@ public class EmployeeAdminService {
     private final PasswordEncoder passwordEncoder;
     private final EmployeeDao employeeDao;
     private final HotelAdminService hotelAdminService;
+    private final AccommodationPackageAdminService accommodationAdminService;
+    private final DestinationAdminService destinationAdminService;
+    private final FlightAdminService flightAdminService;
+    private final DocumentAdminService documentAdminService;
 
     @Autowired
     public EmployeeAdminService(EmployeeService employeeService,
                                 EmployeeRepository employeeRepository,
                                 PasswordEncoder passwordEncoder,
                                 EmployeeDao employeeDao,
-                                HotelAdminService hotelAdminService) {
+                                HotelAdminService hotelAdminService,
+                                AccommodationPackageAdminService accommodationAdminService,
+                                DestinationAdminService destinationAdminService,
+                                FlightAdminService flightAdminService,
+                                DocumentAdminService documentAdminService) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
         this.passwordEncoder = passwordEncoder;
         this.employeeDao = employeeDao;
         this.hotelAdminService = hotelAdminService;
+        this.accommodationAdminService = accommodationAdminService;
+        this.destinationAdminService = destinationAdminService;
+        this.flightAdminService = flightAdminService;
+        this.documentAdminService = documentAdminService;
     }
 
     public List<EmployeeDto> getEmployeesByPageable(Pageable pageable) {
@@ -159,9 +175,13 @@ public class EmployeeAdminService {
             throw new EmployeeNotFoundException("Employee with id " + employeeId + " not found!");
         }
 
+        this.accommodationAdminService.deleteAccommodationBasedOnEmployeeId(employeeId);
         this.hotelAdminService.deleteHotelBasedOnEmployeeId(employeeId);
-
+        this.destinationAdminService.deleteDestinationBasedOnEmployeeId(employeeId);
+        this.flightAdminService.deleteFlightBasedOnEmployeeId(employeeId);
+        this.documentAdminService.deleteDocumentBasedOnEmployeeId(employeeId);
         this.employeeDao.delete(employeeId);
+
         log.info("Employee with id {} has been deleted!", employeeId);
     }
 }

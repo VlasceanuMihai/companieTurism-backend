@@ -46,4 +46,9 @@ public class FlightDao {
     public void delete(Integer flightId) {
         this.flightRepository.deleteById(flightId);
     }
+
+    @Transactional
+    public void deleteAll(List<Flight> flights) {
+        this.flightRepository.deleteAll(flights);
+    }
 }

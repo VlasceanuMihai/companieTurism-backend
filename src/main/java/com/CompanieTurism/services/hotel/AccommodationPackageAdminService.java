@@ -63,13 +63,13 @@ public class AccommodationPackageAdminService {
 
     @Transactional
     @SneakyThrows
-    public void deleteAccommodationBasedOnEmployee(Integer employeeId) {
+    public void deleteAccommodationBasedOnEmployeeId(Integer employeeId) {
         List<AccommodationPackage> accommodationPackages = this.accommodationPackageRepository.findAllByEmployeeId(employeeId);
         if (accommodationPackages.isEmpty()) {
             log.info("No accommodations for employee id {}", employeeId);
             return;
         }
-//
+
         this.accommodationPackageDao.deleteAll(accommodationPackages);
     }
 }
