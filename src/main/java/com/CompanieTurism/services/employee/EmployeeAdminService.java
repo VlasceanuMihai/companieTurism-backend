@@ -5,6 +5,7 @@ import com.CompanieTurism.dto.EmployeeDto;
 import com.CompanieTurism.enums.Role;
 import com.CompanieTurism.exceptions.EmployeeExistsException;
 import com.CompanieTurism.exceptions.EmployeeNotFoundException;
+import com.CompanieTurism.exceptions.ErrorMessage;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.EmployeeRepository;
 import com.CompanieTurism.requests.employee.BaseEmployeeRequest;
@@ -96,16 +97,14 @@ public class EmployeeAdminService {
     @Transactional
     @SneakyThrows
     public EmployeeDto createEmployee(EmployeeRegisterRequest employeeRequest) {
+        log.info("Request: {}", employeeRequest);
         if (employeeService.checkExistingEmail(employeeRequest.getEmail())
                 || employeeService.checkExistingPhoneNumber(employeeRequest.getPhoneNumber())
                 || employeeService.checkExistingCnp(employeeRequest.getCnp())) {
             log.info("Employee with email {}, phone number {}, cnp {} already exists!", employeeRequest.getEmail(),
                     employeeRequest.getPhoneNumber(),
                     employeeRequest.getCnp());
-            throw new EmployeeExistsException("Employee with email - " + employeeRequest.getEmail() +
-                    ", phone number - " + employeeRequest.getPhoneNumber() +
-                    ", cnp - " + employeeRequest.getCnp() +
-                    "already exists!");
+            throw new EmployeeExistsException(ErrorMessage.EMPLOYEE_ALREADY_EXISTS);
         }
 
         Employee employee = this.employeeRepository.save(this.getUpdatedEmployee(employeeRequest));
