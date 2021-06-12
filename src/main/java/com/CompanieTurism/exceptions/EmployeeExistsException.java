@@ -12,4 +12,8 @@ public class EmployeeExistsException extends RuntimeException{
     public EmployeeExistsException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public EmployeeExistsException(ErrorMessage error) {
+        super(error.getMessage());
+    }
 }
