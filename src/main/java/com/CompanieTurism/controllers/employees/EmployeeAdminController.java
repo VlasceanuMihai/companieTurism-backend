@@ -30,6 +30,18 @@ public class EmployeeAdminController {
         this.employeeService = employeeService;
     }
 
+    @GetMapping("/v1/profile")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> adminEmployeeProfile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(this.employeeAdminService.getAdminEmployeeProfile(userPrincipal.getId()));
+    }
+
+    @GetMapping("/v1/employee/{employeeId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> getEmployees(@PathVariable Integer employeeId) {
+        return ResponseEntity.ok(this.employeeAdminService.getEmployee(employeeId));
+    }
+
     @GetMapping("/v1/employees")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> getEmployees(@PageableDefault(size = 2) Pageable pageable) {
@@ -40,12 +52,6 @@ public class EmployeeAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> getAllEmployees() {
         return ResponseEntity.ok(this.employeeAdminService.getAllEmployees());
-    }
-
-    @GetMapping("/v1/profile")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Object> adminEmployeeProfile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return ResponseEntity.ok(this.employeeAdminService.getAdminEmployeeProfile(userPrincipal.getId()));
     }
 
     @PostMapping("/v1/createEmployee")

@@ -64,6 +64,10 @@ public class EmployeeAdminService {
         this.documentAdminService = documentAdminService;
     }
 
+    public EmployeeDto getEmployee(Integer employeeId) {
+        return this.employeeDao.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND));
+    }
+
     public List<EmployeeDto> getEmployeesByPageable(Pageable pageable) {
         return this.employeeRepository.findAll(pageable).stream()
                 .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
@@ -133,7 +137,7 @@ public class EmployeeAdminService {
     public EmployeeDto updateEmployee(Integer employeeId, BaseEmployeeRequest employeeRequest) {
         if (!this.employeeService.checkExistingId(employeeId)) {
             log.info("Employee with id {} not found.", employeeId);
-            throw new EmployeeNotFoundException("Employee with id " + employeeId + " not found!");
+            throw new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND);
         }
 
         int res = this.employeeRepository.updateEmployee(employeeRequest.getLastName(),
@@ -147,7 +151,8 @@ public class EmployeeAdminService {
                 employeeId);
 
         if (res < 1) {
-            throw new PersistenceException("Cannot update employee with employeeId: " + employeeId);
+            log.info("Cannot update employee with employeeId: {}", employeeId);
+            throw new PersistenceException(ErrorMessage.CANNOT_UPDATE_EMPLOYEE.getMessage());
         }
 
         log.info("Employee with id {} has been updated with payload {}", employeeId, employeeRequest);
@@ -163,7 +168,6 @@ public class EmployeeAdminService {
                 .wage(employeeRequest.getWage())
                 .role(Role.ROLE_USER)
                 .build();
-
     }
 
     @Transactional
