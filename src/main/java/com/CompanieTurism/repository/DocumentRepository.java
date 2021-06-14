@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Integer> {
@@ -19,7 +20,7 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
             "(d.id, e.lastName, e.firstName, d.documentName) " +
             "FROM Document d " +
             "JOIN Employee e ON e.id = d.employee.id")
-    List<DocumentResponse> findByEmployeeAndDocumentName(Pageable pageable);
+    List<DocumentResponse> findAllByEmployeeAndDocumentName(Pageable pageable);
 
     @Query(value = "SELECT new com.CompanieTurism.responses.document.DocumentResponse" +
             "(d.id, e.lastName, e.firstName, d.documentName) " +
@@ -28,6 +29,11 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
     List<DocumentResponse> findAllByPageableBasedOnEmployeeAndDocumentName();
 
     List<Document> findAllByEmployeeId(@Param("employeeId") Integer employeeId);
+
+    @Query(value = "SELECT d FROM Document d " +
+            "JOIN Employee e ON e.id = d.employee.id " +
+            "WHERE d.id = :documentId")
+    Optional<Document> findByIdAndEmployee(@Param("documentId") Integer documentId);
 
     @Modifying
     @Transactional

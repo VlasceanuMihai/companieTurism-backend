@@ -18,6 +18,8 @@ import java.util.Set;
 @Data
 @Builder
 @EqualsAndHashCode(of = {"cnp"})
+@ToString(of = {"id", "lastName", "firstName", "cnp", "phoneNumber", "email", "dateOfEmployment",
+        "employeeType", "wage", "createdAt"})
 public class Employee implements Serializable {
 
     @Id

@@ -1,5 +1,6 @@
 package com.CompanieTurism.responses.document;
 
+import com.CompanieTurism.responses.employee.EmployeeProfileResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,4 +19,6 @@ public class DocumentResponse {
     private String employeeLastName;
 
     private String documentName;
+
+//    private EmployeeProfileResponse employee;
 }
