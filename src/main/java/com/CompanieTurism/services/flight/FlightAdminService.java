@@ -1,7 +1,9 @@
 package com.CompanieTurism.services.flight;
 
+import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.dao.FlightDao;
 import com.CompanieTurism.dto.FlightDto;
+import com.CompanieTurism.exceptions.ErrorMessage;
 import com.CompanieTurism.exceptions.FlightNotFoundException;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.models.Flight;
@@ -42,17 +44,20 @@ public class FlightAdminService {
         return flightService.getFlights();
     }
 
+    public FlightDto getFlight(Integer flightId) {
+        Flight flight = this.flightRepository.findByIdAndEmployee(flightId)
+                .orElseThrow(() -> new FlightNotFoundException(ErrorMessage.FLIGHT_NOT_FOUND));
+        log.info("Flight request: {}", flight);
+        return FlightDao.TO_FLIGHT_DTO.getDestination(flight);
+    }
+
     @Transactional
     @SneakyThrows
-    public BaseFlightResponse createFlight(BaseFlightRegisterRequest flightRequest) {
+    public FlightDto createFlight(BaseFlightRegisterRequest flightRequest) {
         Employee employee = this.employeeService.findEmployeeByCnp(flightRequest.getCnp());
 
-        FlightDto flightDto = this.flightDao.save(getUpdatedFlight(employee, flightRequest));
-
-        return BaseFlightResponse.builder()
-                .employeeId(employee.getId())
-                .flightDto(flightDto)
-                .build();
+        Flight flight = this.flightRepository.save(getUpdatedFlight(employee, flightRequest));
+        return FlightDao.TO_FLIGHT_DTO.getDestination(flight);
     }
 
     private Flight getUpdatedFlight(Employee employee, BaseFlightRegisterRequest flightRequest) {
@@ -68,30 +73,38 @@ public class FlightAdminService {
     }
 
     @Transactional
-    public BaseFlightResponse updateFlight(Integer flightId, BaseFlightRegisterRequest flightRequest) {
-        FlightDto flightDto = this.flightDao.findById(flightId)
-                .orElseThrow(() -> new FlightNotFoundException("Flight with id " + flightId + " not found!"));
+    public FlightDto updateFlight(Integer flightId, BaseFlightRegisterRequest flightRequest) {
+        if (!this.flightService.checkExistingId(flightId)) {
+            log.info("Flight with id {} not found.", flightId);
+            throw new FlightNotFoundException(ErrorMessage.FLIGHT_NOT_FOUND);
+        }
 
-        Employee employee = this.employeeService.findEmployeeByCnp(flightRequest.getCnp());
+        Flight flight = this.flightRepository.findByIdAndEmployee(flightId)
+                .orElseThrow(() -> new FlightNotFoundException(ErrorMessage.FLIGHT_NOT_FOUND));
+        log.info("Flight request: {}", flight);
 
         int res = this.flightRepository.updateFlight(flightId, flightRequest.getAirportDeparture(),
                 flightRequest.getDateOfDeparture(), flightRequest.getAirportArrival(),
                 flightRequest.getDateOfArrival(), flightRequest.getCompany());
 
         if (res < 1) {
+            log.info("Cannot update flight with id: {}", flightId);
             throw new PersistenceException("Cannot update flight with id: " + flightId);
         }
         log.info("Flight with id {} has been updated with payload {}", flightId, flightRequest);
 
-        return BaseFlightResponse.builder()
-                .employeeId(employee.getId())
-                .flightDto(flightDto)
-                .build();
+        return FlightDao.TO_FLIGHT_DTO.getDestination(flight);
     }
 
     @Transactional
     public void deleteFlight(Integer flightId) {
-        this.flightService.deleteFlight(flightId);
+        if (!this.flightService.checkExistingId(flightId)) {
+            log.info("Flight with id {} not found.", flightId);
+            throw new FlightNotFoundException(ErrorMessage.FLIGHT_NOT_FOUND);
+        }
+
+        this.flightDao.delete(flightId);
+        log.info("Flight with id {} has been deleted!", flightId);
     }
 
     @Transactional

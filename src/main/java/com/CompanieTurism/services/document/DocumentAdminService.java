@@ -69,7 +69,7 @@ public class DocumentAdminService {
         String cnp = request.getCnp();
 
         Employee employee = this.employeeRepository.findByCnp(cnp)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + cnp + " not found!"));
+                .orElseThrow(() -> new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND));
 
         Document document = this.documentRepository.save(this.getUpdatedDocument(employee, request));
 
@@ -119,7 +119,7 @@ public class DocumentAdminService {
     public void deleteDocument(Integer documentId) {
         if (!this.documentService.checkExistingId(documentId)) {
             log.info("Document with id {} not found.", documentId);
-            throw new DocumentNotFoundException("Document with id " + documentId + " not found!");
+            throw new DocumentNotFoundException(ErrorMessage.DOCUMENT_NOT_FOUND);
         }
 
         this.documentDao.delete(documentId);

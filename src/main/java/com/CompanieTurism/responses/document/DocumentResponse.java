@@ -18,6 +18,4 @@ public class DocumentResponse {
     private String employeeLastName;
 
     private String documentName;
-
-//    private EmployeeProfileResponse employee;
 }

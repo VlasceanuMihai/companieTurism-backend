@@ -30,9 +30,4 @@ public class FlightService {
     public boolean checkExistingId(Integer flightId) {
         return this.flightRepository.existsById(flightId);
     }
-
-    @Transactional
-    public void deleteFlight(Integer flightId) {
-        this.flightDao.delete(flightId);
-    }
 }
