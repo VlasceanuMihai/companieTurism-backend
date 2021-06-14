@@ -27,4 +27,6 @@ public class HotelDto {
     @NotBlank
     @Max(1)
     private Integer rating;
+
+    private DestinationDto destination;
 }

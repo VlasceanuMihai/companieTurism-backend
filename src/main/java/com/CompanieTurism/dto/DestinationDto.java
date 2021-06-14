@@ -31,4 +31,6 @@ public class DestinationDto {
     @NotNull
     @NotBlank
     private CovidScenario covidScenario;
+
+    private EmployeeDto employee;
 }

@@ -5,7 +5,9 @@ import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.dao.HotelDao;
 import com.CompanieTurism.dto.DestinationDto;
 import com.CompanieTurism.dto.HotelDto;
+import com.CompanieTurism.exceptions.ErrorMessage;
 import com.CompanieTurism.exceptions.HotelExistsException;
+import com.CompanieTurism.exceptions.HotelNotFoundException;
 import com.CompanieTurism.models.Destination;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.models.Hotel;
@@ -52,6 +54,14 @@ public class HotelAdminService {
         this.destinationDao = destinationDao;
         this.destinationRepository = destinationRepository;
         this.accommodationPackageService = accommodationPackageService;
+    }
+
+    public HotelDto getHotel(Integer hotelId){
+        Hotel hotel = this.hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new HotelNotFoundException(ErrorMessage.HOTEL_NOT_FOUND));
+        log.info("Hotel request: {}", hotel);
+
+        return HotelDao.TO_HOTEL_DTO.getDestination(hotel);
     }
 
     public List<HotelResponse> getHotelsAndDestinationsByPageable(Pageable pageable) {
