@@ -26,7 +26,7 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
             "(d.id, e.lastName, e.firstName, d.documentName) " +
             "FROM Document d " +
             "JOIN Employee e ON e.id = d.employee.id")
-    List<DocumentResponse> findAllByPageableBasedOnEmployeeAndDocumentName();
+    List<DocumentResponse> findAllByEmployeeAndDocumentName();
 
     List<Document> findAllByEmployeeId(@Param("employeeId") Integer employeeId);
 
