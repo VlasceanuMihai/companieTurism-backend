@@ -25,10 +25,16 @@ public class FlightAdminController {
         this.flightService = flightService;
     }
 
+    @GetMapping("/v1/flight/{flightId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> getFlight(@PathVariable Integer flightId) {
+        return ResponseEntity.ok(this.flightAdminService.getFlight(flightId));
+    }
+
     @GetMapping("/v1/flights")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> getFlights() {
-        return ResponseEntity.ok(this.flightService.getFlights());
+        return ResponseEntity.ok(this.flightAdminService.getFlights());
     }
 
     @PostMapping("/v1/createFlight")

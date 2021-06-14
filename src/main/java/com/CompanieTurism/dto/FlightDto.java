@@ -1,7 +1,5 @@
 package com.CompanieTurism.dto;
 
-import com.CompanieTurism.models.Employee;
-import com.CompanieTurism.responses.employee.EmployeeProfileResponse;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
@@ -43,4 +41,6 @@ public class FlightDto {
     @NotBlank
     @Size(max = 30)
     private String company;
+
+    private EmployeeDto employee;
 }

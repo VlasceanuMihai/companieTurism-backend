@@ -17,9 +17,6 @@ import java.time.LocalDateTime;
 @Builder
 public class BaseFlightRegisterRequest {
 
-    @NotNull
-    @NotBlank
-    @Size(max = 13)
     private String cnp;
 
     @NotNull

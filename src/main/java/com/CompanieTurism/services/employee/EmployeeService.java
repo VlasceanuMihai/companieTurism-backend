@@ -2,6 +2,7 @@ package com.CompanieTurism.services.employee;
 
 import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.exceptions.EmployeeNotFoundException;
+import com.CompanieTurism.exceptions.ErrorMessage;
 import com.CompanieTurism.exceptions.InvalidPasswordException;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.EmployeeRepository;
@@ -47,13 +48,13 @@ public class EmployeeService {
 
     public Employee findEmployeeByCnp(String cnp) {
         return this.employeeRepository.findByCnp(cnp)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee with cnp " + cnp + " not found!"));
+                .orElseThrow(() -> new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND));
     }
 
     @Transactional
     public void updatePassword(Integer employeeId, PasswordRequest passwordRequest) {
         Employee employee = this.employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id: " + employeeId + " not found!"));
+                .orElseThrow(() -> new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND));
 
         String currentEncodedPassword = employee.getPassword();
         String currentPassword = passwordRequest.getCurrentPassword();

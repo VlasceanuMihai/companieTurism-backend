@@ -1,6 +1,6 @@
 package com.CompanieTurism.repository;
 
-import com.CompanieTurism.models.Destination;
+import com.CompanieTurism.models.Document;
 import com.CompanieTurism.models.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,9 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
+
+    List<Flight> findAllByEmployeeId(@Param("employeeId") Integer employeeId);
+
+    @Query(value = "SELECT f FROM Flight f " +
+            "JOIN Employee e ON e.id = f.employee.id " +
+            "WHERE f.id = :flightId")
+    Optional<Flight> findByIdAndEmployee(@Param("flightId") Integer flightId);
 
     @Modifying
     @Transactional
@@ -27,9 +35,4 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
                      @Param("airportArrival") String airportArrival,
                      @Param("dateOfArrival") LocalDateTime dateOfArrival,
                      @Param("company") String company);
-
-//    @Query(value = "SELECT * FROM flights f " +
-//            "JOIN employees e ON e.id = f.id_employee " +
-//            "WHERE e.id = :employeeId", nativeQuery = true)
-    List<Flight> findAllByEmployeeId(@Param("employeeId") Integer employeeId);
 }
