@@ -1,5 +1,6 @@
 package com.CompanieTurism.responses.document;
 
+import com.CompanieTurism.dto.EmployeeDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,15 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class DocumentResponse {
+public class BaseDocumentResponse {
 
     private Integer id;
 
-    private String employeeFirstName;
-
-    private String employeeLastName;
-
     private String documentName;
 
-//    private EmployeeProfileResponse employee;
+    private String path;
+
+    private EmployeeDto employee;
 }

@@ -1,6 +1,7 @@
 package com.CompanieTurism.services.document;
 
 import com.CompanieTurism.dao.DocumentDao;
+import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.exceptions.DocumentNotFoundException;
 import com.CompanieTurism.exceptions.EmployeeNotFoundException;
 import com.CompanieTurism.exceptions.ErrorMessage;
@@ -9,6 +10,7 @@ import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.DocumentRepository;
 import com.CompanieTurism.repository.EmployeeRepository;
 import com.CompanieTurism.requests.document.BaseDocumentRequest;
+import com.CompanieTurism.responses.document.BaseDocumentResponse;
 import com.CompanieTurism.responses.document.DocumentResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -45,18 +47,19 @@ public class DocumentAdminService {
     }
 
     public List<DocumentResponse> getAllDocumentsByEmployeeAndDocumentName() {
-        return this.documentRepository.findAllByPageableBasedOnEmployeeAndDocumentName();
+        return this.documentRepository.findAllByEmployeeAndDocumentName();
     }
 
-    public DocumentResponse getDocument(Integer documentId) {
-        Document document = this.documentRepository.findByIdAndEmployee(documentId).orElseThrow(() -> new DocumentNotFoundException(ErrorMessage.DOCUMENT_NOT_FOUND));
+    public BaseDocumentResponse getDocument(Integer documentId) {
+        Document document = this.documentRepository.findByIdAndEmployee(documentId)
+                .orElseThrow(() -> new DocumentNotFoundException(ErrorMessage.DOCUMENT_NOT_FOUND));
         log.info("Document request: {}", document);
 
-        return DocumentResponse.builder()
+        return BaseDocumentResponse.builder()
                 .id(document.getId())
-                .employeeLastName(document.getEmployee().getLastName())
-                .employeeFirstName(document.getEmployee().getFirstName())
                 .documentName(document.getDocumentName())
+                .path(document.getPath())
+                .employee(EmployeeDao.TO_EMPLOYEE_DTO.getDestination(document.getEmployee()))
                 .build();
     }
 
@@ -90,20 +93,22 @@ public class DocumentAdminService {
     public DocumentResponse updateDocument(Integer documentId, BaseDocumentRequest baseDocumentRequest) {
         if (!this.documentService.checkExistingId(documentId)) {
             log.info("Document with id {} not found.", documentId);
-            throw new EmployeeNotFoundException("Document with id " + documentId + " not found!");
+            throw new DocumentNotFoundException(ErrorMessage.DOCUMENT_NOT_FOUND);
         }
-        int res = this.documentRepository.updateDocument(documentId, baseDocumentRequest.getDocumentName(), baseDocumentRequest.getPath());
 
+        int res = this.documentRepository.updateDocument(documentId, baseDocumentRequest.getDocumentName(), baseDocumentRequest.getPath());
         if (res < 1) {
+            log.info("Cannot update document with id: {}", documentId);
             throw new PersistenceException("Cannot update document with id: " + documentId);
         }
         log.info("Document with id {} has been updated with payload {}", documentId, baseDocumentRequest);
 
         Document document = this.documentRepository.findById(documentId)
-                .orElseThrow(() -> new EmployeeNotFoundException("Document with id " + documentId + " not found!"));
+                .orElseThrow(() -> new DocumentNotFoundException(ErrorMessage.DOCUMENT_NOT_FOUND));
 
         return DocumentResponse.builder()
-                .documentName(baseDocumentRequest.getDocumentName())
+                .id(document.getId())
+                .documentName(document.getDocumentName())
                 .employeeFirstName(document.getEmployee().getFirstName())
                 .employeeLastName(document.getEmployee().getLastName())
                 .build();
