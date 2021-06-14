@@ -107,7 +107,8 @@ public class DocumentAdminService {
                 .orElseThrow(() -> new DocumentNotFoundException(ErrorMessage.DOCUMENT_NOT_FOUND));
 
         return DocumentResponse.builder()
-                .documentName(baseDocumentRequest.getDocumentName())
+                .id(document.getId())
+                .documentName(document.getDocumentName())
                 .employeeFirstName(document.getEmployee().getFirstName())
                 .employeeLastName(document.getEmployee().getLastName())
                 .build();
