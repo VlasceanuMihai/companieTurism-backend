@@ -27,6 +27,12 @@ public class DocumentAdminController {
         this.documentService = documentService;
     }
 
+    @GetMapping("/v1/document/{documentId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> getDocument(@PathVariable Integer documentId) {
+        return ResponseEntity.ok(this.documentAdminService.getDocument(documentId));
+    }
+
     @GetMapping("/v1/documents")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> getDocumentsByPageable(@PageableDefault(size = 10) Pageable pageable) {

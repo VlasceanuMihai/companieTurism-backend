@@ -11,4 +11,8 @@ public class DocumentNotFoundException extends RuntimeException {
     public DocumentNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public DocumentNotFoundException(ErrorMessage error) {
+        super(error.getMessage());
+    }
 }

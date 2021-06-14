@@ -3,6 +3,7 @@ package com.CompanieTurism.services.document;
 import com.CompanieTurism.dao.DocumentDao;
 import com.CompanieTurism.exceptions.DocumentNotFoundException;
 import com.CompanieTurism.exceptions.EmployeeNotFoundException;
+import com.CompanieTurism.exceptions.ErrorMessage;
 import com.CompanieTurism.models.Document;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.DocumentRepository;
@@ -40,11 +41,23 @@ public class DocumentAdminService {
     }
 
     public List<DocumentResponse> getDocumentsByEmployeeAndDocumentName(Pageable pageable) {
-        return this.documentRepository.findByEmployeeAndDocumentName(pageable);
+        return this.documentRepository.findAllByEmployeeAndDocumentName(pageable);
     }
 
     public List<DocumentResponse> getAllDocumentsByEmployeeAndDocumentName() {
         return this.documentRepository.findAllByPageableBasedOnEmployeeAndDocumentName();
+    }
+
+    public DocumentResponse getDocument(Integer documentId) {
+        Document document = this.documentRepository.findByIdAndEmployee(documentId).orElseThrow(() -> new DocumentNotFoundException(ErrorMessage.DOCUMENT_NOT_FOUND));
+        log.info("Document request: {}", document);
+
+        return DocumentResponse.builder()
+                .id(document.getId())
+                .employeeLastName(document.getEmployee().getLastName())
+                .employeeFirstName(document.getEmployee().getFirstName())
+                .documentName(document.getDocumentName())
+                .build();
     }
 
     @Transactional

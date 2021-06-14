@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum ErrorMessage {
     EMPLOYEE_ALREADY_EXISTS("employee.already.exists", "Employee already exists"),
     EMPLOYEE_NOT_FOUND("employee.not.found", "Employee not found"),
-    CANNOT_UPDATE_EMPLOYEE("cannot.update.employee", "Cannot update employee");
+    CANNOT_UPDATE_EMPLOYEE("cannot.update.employee", "Cannot update employee"),
+    DOCUMENT_NOT_FOUND("document.not.found", "Document not found");
 
     private String key;
     private String message;
