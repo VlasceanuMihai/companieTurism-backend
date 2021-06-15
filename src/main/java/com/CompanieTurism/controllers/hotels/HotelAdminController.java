@@ -24,6 +24,12 @@ public class HotelAdminController {
         this.hotelAdminService = hotelAdminService;
     }
 
+    @GetMapping("/v1/hotel/{hotelId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> getHotel(@PathVariable Integer hotelId) {
+        return ResponseEntity.ok(this.hotelAdminService.getHotel(hotelId));
+    }
+
     @GetMapping("/v1/hotels")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> getHotelsByPageable(@PageableDefault Pageable pageable) {

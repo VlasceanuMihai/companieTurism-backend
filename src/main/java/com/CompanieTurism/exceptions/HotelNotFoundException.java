@@ -12,4 +12,8 @@ public class HotelNotFoundException extends RuntimeException {
     public HotelNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public HotelNotFoundException(ErrorMessage error) {
+        super(error.getMessage());
+    }
 }
