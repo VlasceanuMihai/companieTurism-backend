@@ -72,4 +72,16 @@ public class AccommodationPackageAdminService {
 
         this.accommodationPackageDao.deleteAll(accommodationPackages);
     }
+
+    @Transactional
+    @SneakyThrows
+    public void deleteAccommodationBasedOnHotelId(Integer hotelId) {
+        List<AccommodationPackage> accommodationPackages = this.accommodationPackageRepository.findAllByHotelId(hotelId);
+        if (accommodationPackages.isEmpty()) {
+            log.info("There are no accommodation packages for hotel id: {}", hotelId);
+            return;
+        }
+
+        this.accommodationPackageDao.deleteAll(accommodationPackages);
+    }
 }

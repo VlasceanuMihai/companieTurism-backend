@@ -25,12 +25,6 @@ public class HotelDao {
         this.hotelRepository = hotelRepository;
     }
 
-    @Transactional(readOnly = true)
-    public boolean countDuplicateHotelBasedOnEmployee(Integer employeeId, String hotelName, String country, String city) {
-        int count = this.hotelRepository.countAllByEmployeeAndHotelAndDestination(hotelName, country, city);
-        return count >= 1;
-    }
-
     @Transactional
     public HotelDto save(Hotel hotel) {
         return TO_HOTEL_DTO.getDestination(this.hotelRepository.save(hotel));

@@ -20,6 +20,4 @@ public class HotelResponse {
     private Integer hotelRating;
 
     private DestinationDto destination;
-
-    private EmployeeDto employee;
 }

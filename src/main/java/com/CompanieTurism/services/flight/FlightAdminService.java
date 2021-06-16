@@ -1,6 +1,5 @@
 package com.CompanieTurism.services.flight;
 
-import com.CompanieTurism.dao.EmployeeDao;
 import com.CompanieTurism.dao.FlightDao;
 import com.CompanieTurism.dto.FlightDto;
 import com.CompanieTurism.exceptions.ErrorMessage;
@@ -9,7 +8,6 @@ import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.models.Flight;
 import com.CompanieTurism.repository.FlightRepository;
 import com.CompanieTurism.requests.flight.BaseFlightRegisterRequest;
-import com.CompanieTurism.responses.flight.BaseFlightResponse;
 import com.CompanieTurism.services.employee.EmployeeService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -79,10 +77,6 @@ public class FlightAdminService {
             throw new FlightNotFoundException(ErrorMessage.FLIGHT_NOT_FOUND);
         }
 
-        Flight flight = this.flightRepository.findByIdAndEmployee(flightId)
-                .orElseThrow(() -> new FlightNotFoundException(ErrorMessage.FLIGHT_NOT_FOUND));
-        log.info("Flight request: {}", flight);
-
         int res = this.flightRepository.updateFlight(flightId, flightRequest.getAirportDeparture(),
                 flightRequest.getDateOfDeparture(), flightRequest.getAirportArrival(),
                 flightRequest.getDateOfArrival(), flightRequest.getCompany());
@@ -92,6 +86,9 @@ public class FlightAdminService {
             throw new PersistenceException("Cannot update flight with id: " + flightId);
         }
         log.info("Flight with id {} has been updated with payload {}", flightId, flightRequest);
+
+        Flight flight = this.flightRepository.findByIdAndEmployee(flightId)
+                .orElseThrow(() -> new FlightNotFoundException(ErrorMessage.FLIGHT_NOT_FOUND));
 
         return FlightDao.TO_FLIGHT_DTO.getDestination(flight);
     }

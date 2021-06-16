@@ -1,12 +1,15 @@
 package com.CompanieTurism.repository;
 
+import com.CompanieTurism.enums.CovidScenario;
 import com.CompanieTurism.models.Destination;
 import com.CompanieTurism.models.Hotel;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +18,10 @@ import java.util.Optional;
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 
     boolean existsByNameAndDestination(String name, Destination destination);
+
+    boolean existsByNameAndDestinationCountryAndDestinationCity(@Param("hotelName") String hotelName,
+                                                                @Param("country") String country,
+                                                                @Param("city") String city);
 
     Optional<Hotel> findByNameAndDestination(String name, Destination destination);
 
@@ -31,10 +38,9 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     @Query(value = "SELECT COUNT(*) FROM hotels h " +
             "JOIN destinations d ON d.id = h.id_destination " +
             "WHERE h.name = :hotelName AND d.country = :country AND d.city = :city", nativeQuery = true)
-    int countAllByEmployeeAndHotelAndDestination(
-            @Param("hotelName") String hotelName,
-            @Param("country") String country,
-            @Param("city") String city);
+    int countAllByEmployeeAndHotelAndDestination(@Param("hotelName") String hotelName,
+                                                 @Param("country") String country,
+                                                 @Param("city") String city);
 
     @Query(value = "SELECT COUNT(*) FROM hotels h " +
             "WHERE h.id_destination = :destinationId", nativeQuery = true)
@@ -49,17 +55,22 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
             "WHERE e.id = :employeeId", nativeQuery = true)
     List<Hotel> findAllByEmployeeId(@Param("employeeId") Integer employeeId);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE hotels h " +
+            "JOIN destinations d ON d.id = h.id_destination " +
+            "SET name = :name, rating = :rating, " +
+            "d.country = :country, d.city = :city, d.covid_scenario = :covidScenario " +
+            "WHERE h.id = :hotelId", nativeQuery = true)
+    int updateHotel(@Param("hotelId") Integer hotelId,
+                    @Param("name") String name,
+                    @Param("rating") Integer rating,
+                    @Param("country") String country,
+                    @Param("city") String city,
+                    @Param("covidScenario") String covidScenario);
 
-    /*
-    SELECT hotels.id,hotels.name,hotels.rating,destinations.country,destinations.city,destinations.covid_scenario,employees.last_name,employees.first_name
-    FROM hotels
-    JOIN destinations
-    ON destinations.id =hotels.id_destination
-    JOIN employees
-    ON employees.id =destinations.id_employee;
-
-    new com.CompanieTurism.responses.hotel.HotelAndDestinationResponse(" +
-            "h.id, h.name, h.rating, d.country, d.city, d.covidScenario, d.employee)
-     */
-
+//    value = "UPDATE Hotel " +
+//            "SET name = :name, rating = :rating, " +
+//            "destination.country = :country, destination.city = :city, destination.covidScenario = :covidScenario " +
+//            "WHERE id = :hotelId"
 }

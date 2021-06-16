@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DestinationRepository extends JpaRepository<Destination, Integer> {
@@ -16,7 +17,7 @@ public interface DestinationRepository extends JpaRepository<Destination, Intege
 
     boolean existsByEmployeeAndCountryAndCity(Employee employee, String country, String city);
 
-    Destination findByEmployeeAndCountryAndCity(Employee employee, String country, String city);
+    Optional<Destination> findByEmployeeAndCountryAndCity(Employee employee, String country, String city);
 
     @Query(value = "SELECT * FROM destinations d " +
             "JOIN employees e ON e.id = d.id_employee " +
