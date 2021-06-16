@@ -16,9 +16,6 @@ import javax.validation.constraints.Size;
 @Builder
 public class HotelRegisterRequest {
 
-    @NotNull
-    @NotBlank
-    @Size(max = 13)
     private String cnp;
 
     @NotNull

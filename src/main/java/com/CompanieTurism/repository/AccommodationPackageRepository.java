@@ -19,4 +19,6 @@ public interface AccommodationPackageRepository extends JpaRepository<Accommodat
             "JOIN employees e ON e.id = d.id_employee " +
             "WHERE e.id = :employeeId", nativeQuery = true)
     List<AccommodationPackage> findAllByEmployeeId(@Param("employeeId") Integer employeeId);
+
+    List<AccommodationPackage> findAllByHotelId(@Param("hotelId") Integer hotelId);
 }

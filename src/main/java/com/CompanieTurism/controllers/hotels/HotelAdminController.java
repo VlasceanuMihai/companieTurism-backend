@@ -48,6 +48,13 @@ public class HotelAdminController {
         return ResponseEntity.ok(this.hotelAdminService.createHotelWithDestination(hotelRequest));
     }
 
+    @PutMapping("/v1/updateHotel/{hotelId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> updateHotel(@PathVariable Integer hotelId,
+                                              @Valid @RequestBody HotelRegisterRequest hotelRequest) {
+        return ResponseEntity.ok(this.hotelAdminService.updateHotel(hotelId, hotelRequest));
+    }
+
     @DeleteMapping("/v1/deleteHotel/{hotelId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> deleteHotel(@PathVariable Integer hotelId) {

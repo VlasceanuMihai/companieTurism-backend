@@ -12,4 +12,8 @@ public class HotelExistsException extends RuntimeException {
     public HotelExistsException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public HotelExistsException(ErrorMessage error) {
+        super(error.getMessage());
+    }
 }
