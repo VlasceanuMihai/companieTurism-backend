@@ -1,12 +1,8 @@
 package com.CompanieTurism.requests.hotel;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
@@ -14,9 +10,9 @@ import javax.validation.constraints.NotNull;
 @Data
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class RegisterAccommodationPackageRequest extends BaseAccommodationPackageRequest {
 
     @NotNull
-    @NotBlank
     private Integer totalPrice;
 }

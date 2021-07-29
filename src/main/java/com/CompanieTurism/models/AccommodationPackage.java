@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Data
 @Builder
 @EqualsAndHashCode(of = {"id"})
+@ToString
 public class AccommodationPackage {
 
     @Id
