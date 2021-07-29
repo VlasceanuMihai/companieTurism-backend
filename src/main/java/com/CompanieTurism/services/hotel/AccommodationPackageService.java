@@ -23,10 +23,7 @@ public class AccommodationPackageService {
         return this.accommodationPackageRepository.findByHotelId(hotelId);
     }
 
-    //    public Integer getAccommodationPackageId(Integer hotelId) {
-//        AccommodationPackage accommodationPackage = this.accommodationPackageRepository.findByHotelId(hotelId)
-//                .orElseThrow(() -> new AccommodationPackageNotFoundException("Accommodation package for hotel id: " + hotelId + " not found!"));
-//
-//        return accommodationPackage.getId();
-//    }
+    public boolean checkExistingById(Integer accommodationPackageId) {
+        return this.accommodationPackageRepository.existsById(accommodationPackageId);
+    }
 }

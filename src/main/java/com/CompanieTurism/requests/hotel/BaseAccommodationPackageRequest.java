@@ -4,15 +4,16 @@ import com.CompanieTurism.enums.PackageType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @SuperBuilder
+@ToString
 public class BaseAccommodationPackageRequest {
 
     @NotNull
@@ -30,5 +31,6 @@ public class BaseAccommodationPackageRequest {
     @NotNull
     private Integer adultsNumber;
 
+    @NotNull
     private Integer kidsNumber;
 }

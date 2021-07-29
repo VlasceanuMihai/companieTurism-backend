@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class TotalPriceResponse {
 
     private Integer totalPrice;
+
+    private String currency;
 }

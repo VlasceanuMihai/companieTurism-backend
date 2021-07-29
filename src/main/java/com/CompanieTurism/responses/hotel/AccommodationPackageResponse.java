@@ -1,7 +1,6 @@
 package com.CompanieTurism.responses.hotel;
 
 import com.CompanieTurism.dto.AccommodationPackageDto;
-import com.CompanieTurism.dto.DestinationDto;
 import com.CompanieTurism.dto.HotelDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AccommodationPackageResponse {
 
-    private AccommodationPackageDto accommodationPackageDto;
+    private AccommodationPackageDto accommodationPackage;
 
-    private HotelDto hotelDto;
-
-    private DestinationDto destinationDto;
+    private HotelDto hotel;
 }

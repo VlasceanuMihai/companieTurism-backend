@@ -12,4 +12,8 @@ public class AccommodationPackageNotFoundException extends RuntimeException {
     public AccommodationPackageNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public AccommodationPackageNotFoundException(ErrorMessage error) {
+        super(error.getMessage());
+    }
 }

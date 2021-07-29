@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccommodationPackageDao {
@@ -23,8 +24,18 @@ public class AccommodationPackageDao {
         this.accommodationPackageRepository = accommodationPackageRepository;
     }
 
+    @Transactional(readOnly = true)
+    public Optional<AccommodationPackageDto> findById(Integer accommodationPackageId){
+        return this.accommodationPackageRepository.findById(accommodationPackageId).map(TO_ACCOMMODATION_DTO::getDestination);
+    }
+
     @Transactional
-    public void deleteAll(List<AccommodationPackage> accommodationPackages){
+    public AccommodationPackageDto save(AccommodationPackage accommodationPackage) {
+        return TO_ACCOMMODATION_DTO.getDestination(this.accommodationPackageRepository.save(accommodationPackage));
+    }
+
+    @Transactional
+    public void deleteAll(List<AccommodationPackage> accommodationPackages) {
         this.accommodationPackageRepository.deleteAll(accommodationPackages);
     }
 }

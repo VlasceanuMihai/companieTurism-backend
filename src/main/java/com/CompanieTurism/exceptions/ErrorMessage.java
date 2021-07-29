@@ -10,7 +10,8 @@ public enum ErrorMessage {
     DOCUMENT_NOT_FOUND("document.not.found", "Document not found"),
     FLIGHT_NOT_FOUND("flight.not.found", "Flight not found"),
     HOTEL_NOT_FOUND("hotel.not.found", "Hotel not found"),
-    HOTEL_ALREADY_EXISTS("hotel.already.exists", "Hotel already exists");
+    HOTEL_ALREADY_EXISTS("hotel.already.exists", "Hotel already exists"),
+    ACCOMMODATION_PACKAGE_NOT_FOUND("accommodation.package.not.found", "Accommodation package not found");
 
     private String key;
     private String message;
