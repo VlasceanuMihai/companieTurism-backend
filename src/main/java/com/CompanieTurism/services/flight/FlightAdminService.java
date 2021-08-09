@@ -38,10 +38,6 @@ public class FlightAdminService {
         this.employeeService = employeeService;
     }
 
-    public List<FlightDto> getFlights() {
-        return flightService.getFlights();
-    }
-
     public FlightDto getFlight(Integer flightId) {
         Flight flight = this.flightRepository.findByIdAndEmployee(flightId)
                 .orElseThrow(() -> new FlightNotFoundException(ErrorMessage.FLIGHT_NOT_FOUND));
