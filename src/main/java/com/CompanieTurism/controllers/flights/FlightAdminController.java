@@ -31,12 +31,6 @@ public class FlightAdminController {
         return ResponseEntity.ok(this.flightAdminService.getFlight(flightId));
     }
 
-    @GetMapping("/v1/flights")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Object> getFlights() {
-        return ResponseEntity.ok(this.flightAdminService.getFlights());
-    }
-
     @PostMapping("/v1/createFlight")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> createFlight(@Valid @RequestBody BaseFlightRegisterRequest flightRequest) {

@@ -68,35 +68,17 @@ public class EmployeeAdminService {
         return this.employeeDao.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND));
     }
 
-    public List<EmployeeDto> getEmployeesByPageable(Pageable pageable) {
-        return this.employeeRepository.findAll(pageable).stream()
-                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
-                .collect(Collectors.toList());
-    }
-
-    public List<EmployeeDto> getAllEmployees() {
-        return this.employeeRepository.findAll().stream()
-                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
-                .collect(Collectors.toList());
-    }
-
-    public EmployeeProfileResponse getAdminEmployeeProfile(Integer employeeId) {
-        Employee adminEmployee = this.employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + employeeId + " not found!"));
-
-        return EmployeeProfileResponse.builder()
-                .firstName(adminEmployee.getFirstName())
-                .lastName(adminEmployee.getLastName())
-                .cnp(adminEmployee.getCnp())
-                .phoneNumber(adminEmployee.getPhoneNumber())
-                .email(adminEmployee.getEmail())
-                .dateOfEmployment(adminEmployee.getDateOfEmployment())
-                .employeeType(adminEmployee.getEmployeeType())
-                .wage(adminEmployee.getWage())
-                .role(adminEmployee.getRole())
-                .createdAt(adminEmployee.getCreatedAt())
-                .build();
-    }
+//    public List<EmployeeDto> getEmployeesByPageable(Pageable pageable) {
+//        return this.employeeRepository.findAll(pageable).stream()
+//                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<EmployeeDto> getAllEmployees() {
+//        return this.employeeRepository.findAll().stream()
+//                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
+//                .collect(Collectors.toList());
+//    }
 
     @Transactional
     @SneakyThrows

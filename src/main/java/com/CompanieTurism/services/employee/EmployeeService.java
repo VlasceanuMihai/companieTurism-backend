@@ -1,17 +1,23 @@
 package com.CompanieTurism.services.employee;
 
 import com.CompanieTurism.dao.EmployeeDao;
+import com.CompanieTurism.dto.EmployeeDto;
 import com.CompanieTurism.exceptions.EmployeeNotFoundException;
 import com.CompanieTurism.exceptions.ErrorMessage;
 import com.CompanieTurism.exceptions.InvalidPasswordException;
 import com.CompanieTurism.models.Employee;
 import com.CompanieTurism.repository.EmployeeRepository;
 import com.CompanieTurism.requests.employee.PasswordRequest;
+import com.CompanieTurism.responses.employee.EmployeeProfileResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -49,6 +55,36 @@ public class EmployeeService {
     public Employee findEmployeeByCnp(String cnp) {
         return this.employeeRepository.findByCnp(cnp)
                 .orElseThrow(() -> new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND));
+    }
+
+    public EmployeeProfileResponse getEmployeeProfile(Integer employeeId) {
+        Employee employee = this.employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND));
+
+        return EmployeeProfileResponse.builder()
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .cnp(employee.getCnp())
+                .phoneNumber(employee.getPhoneNumber())
+                .email(employee.getEmail())
+                .dateOfEmployment(employee.getDateOfEmployment())
+                .employeeType(employee.getEmployeeType())
+                .wage(employee.getWage())
+                .role(employee.getRole())
+                .createdAt(employee.getCreatedAt())
+                .build();
+    }
+
+    public List<EmployeeDto> getEmployeesByPageable(Pageable pageable) {
+        return this.employeeRepository.findAll(pageable).stream()
+                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeDto> getAllEmployees() {
+        return this.employeeRepository.findAll().stream()
+                .map(EmployeeDao.TO_EMPLOYEE_DTO::getDestination)
+                .collect(Collectors.toList());
     }
 
     @Transactional

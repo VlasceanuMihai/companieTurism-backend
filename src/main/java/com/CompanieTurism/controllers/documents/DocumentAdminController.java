@@ -2,7 +2,6 @@ package com.CompanieTurism.controllers.documents;
 
 import com.CompanieTurism.requests.document.BaseDocumentRequest;
 import com.CompanieTurism.services.document.DocumentAdminService;
-import com.CompanieTurism.services.document.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -19,12 +18,10 @@ import javax.validation.Valid;
 public class DocumentAdminController {
 
     private final DocumentAdminService documentAdminService;
-    private final DocumentService documentService;
 
     @Autowired
-    public DocumentAdminController(DocumentAdminService documentAdminService, DocumentService documentService) {
+    public DocumentAdminController(DocumentAdminService documentAdminService) {
         this.documentAdminService = documentAdminService;
-        this.documentService = documentService;
     }
 
     @GetMapping("/v1/document/{documentId}")

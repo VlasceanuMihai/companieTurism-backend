@@ -7,15 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping()
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -23,6 +20,22 @@ public class EmployeeController {
     @Autowired
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+
+    @GetMapping("/v1/profile")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> employeeProfile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(this.employeeService.getEmployeeProfile(userPrincipal.getId()));
+    }
+
+//    @GetMapping("/v1/employees")
+//    public ResponseEntity<Object> getEmployees(@PageableDefault(size = 2) Pageable pageable) {
+//        return ResponseEntity.ok(this.employeeService.getEmployeesByPageable(pageable));
+//    }
+
+    @GetMapping("/v1/employees")
+    public ResponseEntity<Object> getEmployees() {
+        return ResponseEntity.ok(this.employeeService.getAllEmployees());
     }
 
     @PutMapping("/v1/updatePassword")
