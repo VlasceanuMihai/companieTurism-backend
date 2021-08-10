@@ -25,11 +25,6 @@ public class AccommodationPackageAdminController {
         this.accommodationPackageService = accommodationPackageService;
     }
 
-    @GetMapping("/v1/accommodationPackages/hotel/{hotelId}")
-    public ResponseEntity<Object> getAccommodationPackages(@PathVariable Integer hotelId) {
-        return ResponseEntity.ok(this.accommodationPackageService.getAccommodationPackages(hotelId));
-    }
-
     @PostMapping("/v1/generateTotalPrice")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> generateTotalPrice(@Valid @RequestBody BaseAccommodationPackageRequest accommodationPackageRequest) {

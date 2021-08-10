@@ -18,12 +18,10 @@ import com.CompanieTurism.services.employee.EmployeeService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,38 +63,6 @@ public class HotelAdminService {
         log.info("Hotel request: {}", hotel);
 
         return HotelDao.TO_HOTEL_DTO.getDestination(hotel);
-    }
-
-    public List<HotelResponse> getHotelsAndDestinationsByPageable(Pageable pageable) {
-        List<Hotel> hotels = this.hotelRepository.findHotelsByPageable(pageable);
-
-        List<HotelResponse> response = new ArrayList<>();
-        for (Hotel hotel : hotels) {
-            HotelResponse newHotel = HotelResponse.builder()
-                    .id(hotel.getId())
-                    .hotelName(hotel.getName())
-                    .hotelRating(hotel.getRating())
-                    .destination(DestinationDao.TO_DESTINATION_DTO.getDestination(hotel.getDestination()))
-                    .build();
-            response.add(newHotel);
-        }
-        return response;
-    }
-
-    public List<HotelResponse> getHotelsAndDestinations() {
-        List<Hotel> hotels = this.hotelRepository.findHotels();
-
-        List<HotelResponse> response = new ArrayList<>();
-        for (Hotel hotel : hotels) {
-            HotelResponse newHotel = HotelResponse.builder()
-                    .id(hotel.getId())
-                    .hotelName(hotel.getName())
-                    .hotelRating(hotel.getRating())
-                    .destination(DestinationDao.TO_DESTINATION_DTO.getDestination(hotel.getDestination()))
-                    .build();
-            response.add(newHotel);
-        }
-        return response;
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-package com.CompanieTurism.controllers;
+package com.CompanieTurism.controllers.auth;
 
 import com.CompanieTurism.security.AuthenticateService;
 import com.CompanieTurism.security.AuthenticationException;
