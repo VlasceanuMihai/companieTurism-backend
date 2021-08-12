@@ -48,6 +48,7 @@ public class FlightAdminService {
     @Transactional
     @SneakyThrows
     public FlightDto createFlight(BaseFlightRegisterRequest flightRequest) {
+        log.info("Request: {}", flightRequest);
         Employee employee = this.employeeService.findEmployeeByCnp(flightRequest.getCnp());
 
         Flight flight = this.flightRepository.save(getUpdatedFlight(employee, flightRequest));
