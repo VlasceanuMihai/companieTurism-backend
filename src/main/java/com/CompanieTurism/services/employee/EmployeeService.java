@@ -94,14 +94,17 @@ public class EmployeeService {
 
         String currentEncodedPassword = employee.getPassword();
         String currentPassword = passwordRequest.getCurrentPassword();
-        if (!this.passwordEncoder.matches(currentPassword, currentEncodedPassword)) {
-            throw new InvalidPasswordException("Invalid current password for employee with id: " + employeeId);
+        if (!this.passwordEncoder.matches(currentEncodedPassword, currentPassword)) {
+            log.info("Invalid current password for employee with id: {}", employeeId);
+            throw new InvalidPasswordException(ErrorMessage.INVALID_CURRENT_PASSWORD);
         }
 
         if (!passwordRequest.getNewPassword().equalsIgnoreCase(passwordRequest.getConfirmNewPassword())) {
-            throw new InvalidPasswordException("New password doesn't match for employee with id: " + employeeId);
+            log.info("New passwords doesn't match for employee with id: {}", employeeId);
+            throw new InvalidPasswordException(ErrorMessage.INVALID_NEW_PASSWORD);
         } else if (currentPassword.equalsIgnoreCase(passwordRequest.getNewPassword())) {
-            throw new InvalidPasswordException("New password doesn't have to be the same as the current password for employee with id: " + employeeId);
+            log.info("New password doesn't have to be the same as the current password for employee with id: {}", employeeId);
+            throw new InvalidPasswordException(ErrorMessage.EQUALS_PASSWORDS);
         }
 
         employee.setPassword(this.passwordEncoder.encode(passwordRequest.getNewPassword()));
