@@ -1,9 +1,6 @@
 package com.CompanieTurism.requests.employee;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,20 +10,21 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class PasswordRequest {
 
     @NotNull
     @NotBlank
-    @Size(min = 5, max = 70)
+    @Size(min = 3, max = 70)
     private String currentPassword;
 
     @NotNull
     @NotBlank
-    @Size(min = 5, max = 70)
+    @Size(min = 3, max = 70)
     private String newPassword;
 
     @NotNull
     @NotBlank
-    @Size(min = 5, max = 70)
+    @Size(min = 3, max = 70)
     private String confirmNewPassword;
 }
