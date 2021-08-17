@@ -92,9 +92,11 @@ public class EmployeeService {
         Employee employee = this.employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EmployeeNotFoundException(ErrorMessage.EMPLOYEE_NOT_FOUND));
 
+        log.info("Request: {}", passwordRequest);
+
         String currentEncodedPassword = employee.getPassword();
         String currentPassword = passwordRequest.getCurrentPassword();
-        if (!this.passwordEncoder.matches(currentEncodedPassword, currentPassword)) {
+        if (!this.passwordEncoder.matches(currentPassword, currentEncodedPassword)) {
             log.info("Invalid current password for employee with id: {}", employeeId);
             throw new InvalidPasswordException(ErrorMessage.INVALID_CURRENT_PASSWORD);
         }
