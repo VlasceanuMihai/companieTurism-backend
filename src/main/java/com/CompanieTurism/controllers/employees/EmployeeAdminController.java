@@ -27,26 +27,26 @@ public class EmployeeAdminController {
     }
 
     @GetMapping("/v1/employee/{employeeId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_HR')")
     public ResponseEntity<Object> getEmployees(@PathVariable Integer employeeId) {
         return ResponseEntity.ok(this.employeeAdminService.getEmployee(employeeId));
     }
 
     @PostMapping("/v1/createEmployee")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_HR')")
     public ResponseEntity<Object> createEmployee(@Valid @RequestBody EmployeeRegisterRequest employeeRequest) {
         return ResponseEntity.ok(this.employeeAdminService.createEmployee(employeeRequest));
     }
 
     @PutMapping("/v1/updateEmployee/{employeeId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_HR')")
     public ResponseEntity<Object> updateEmployee(@PathVariable Integer employeeId,
                                                  @Valid @RequestBody BaseEmployeeRequest employeeRequest) {
         return ResponseEntity.ok(this.employeeAdminService.updateEmployee(employeeId, employeeRequest));
     }
 
     @DeleteMapping("/v1/deleteEmployee/{employeeId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER_HR')")
     public ResponseEntity<Object> deleteEmployee(@PathVariable Integer employeeId) {
         this.employeeAdminService.deleteEmployee(employeeId);
         return ResponseEntity.ok(HttpStatus.OK);

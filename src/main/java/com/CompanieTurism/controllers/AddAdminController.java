@@ -16,20 +16,20 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/v1")
-public class TestController {
+public class AddAdminController {
 
-    private PasswordEncoder passwordEncoder;
-    private EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public TestController(PasswordEncoder passwordEncoder, EmployeeRepository employeeRepository) {
+    public AddAdminController(PasswordEncoder passwordEncoder, EmployeeRepository employeeRepository) {
         this.passwordEncoder = passwordEncoder;
         this.employeeRepository = employeeRepository;
     }
 
-    @PostMapping("/addAdmin")
+    @PostMapping("/addAdminOrManager")
     @Transactional
-    public ResponseEntity<Object> addAdmin(@Valid @RequestBody AdminRequest request) {
+    public ResponseEntity<Object> addAdminOrManager(@Valid @RequestBody AdminRequest request) {
         Employee employee = new Employee();
         employee.setFirstName(request.getFirstName());
         employee.setLastName(request.getLastName());
